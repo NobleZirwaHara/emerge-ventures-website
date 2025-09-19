@@ -52,6 +52,8 @@ class DigitalSkillController extends Controller
         foreach (['prerequisites', 'learning_outcomes', 'features'] as $field) {
             if (isset($validated[$field])) {
                 $validated[$field] = array_values(array_filter($validated[$field]));
+            } else {
+                $validated[$field] = [];
             }
         }
 

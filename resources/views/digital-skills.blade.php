@@ -288,6 +288,10 @@
                 <div class="modal-body">
                     <!-- Content will be dynamically loaded -->
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
+                </div>
             </div>
         </div>
     </div>
