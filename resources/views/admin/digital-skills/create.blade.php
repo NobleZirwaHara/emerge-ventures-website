@@ -117,14 +117,13 @@
         <div class="lg:col-span-1 space-y-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-4">Program Image</h3>
-                <div class="text-center">
-                    <img id="image-preview" src="{{ asset('assets/img/placeholder.jpg') }}" alt="Image preview" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <input type="file" id="image" name="image" accept="image/*" class="hidden @error('image') border-red-500 @enderror" onchange="previewImage(event)">
-                    <label for="image" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-upload mr-2"></i> Choose Image
-                    </label>
-                    <p class="text-xs text-gray-500 mt-2">Max file size: 2MB. Recommended: 800x500px.</p>
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+                    <input type="text" id="image" name="image" value="{{ old('image') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('image') border-red-500 @enderror" placeholder="https://example.com/image.jpg">
                     @error('image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+                <div class="mt-4">
+                    <img id="image-preview" src="{{ old('image', asset('assets/img/placeholder.jpg')) }}" alt="Image preview" class="w-full h-48 object-cover rounded-lg">
                 </div>
             </div>
 
@@ -173,14 +172,12 @@
 
 @push('scripts')
 <script>
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function(){
-            const output = document.getElementById('image-preview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
+    document.getElementById('image').addEventListener('input', function() {
+        const preview = document.getElementById('image-preview');
+        const placeholder = "{{ asset('assets/img/placeholder.jpg') }}";
+        preview.src = this.value || placeholder;
+        preview.onerror = () => { preview.src = placeholder; };
+    });
 
     function createDynamicField(container, name, placeholder) {
         const wrapper = document.createElement('div');

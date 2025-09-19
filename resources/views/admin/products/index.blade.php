@@ -1,35 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
-    <div class="min-h-screen flex">
-        <!-- Sidebar -->
-        <div class="bg-gray-800 text-white w-64 min-h-screen p-4">
-            <div class="mb-8">
-                <h1 class="text-xl font-bold">Admin Dashboard</h1>
-                <p class="text-gray-400">{{ auth()->user()->name }}</p>
-            </div>
-            
-            <nav class="space-y-2">
-                <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
-                <a href="{{ route('admin.products.index') }}" class="block py-2 px-4 rounded bg-gray-700">Products</a>
-                <a href="{{ route('admin.orders.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Orders</a>
-                <a href="{{ route('admin.entrepreneurs.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Entrepreneurs</a>
-                <a href="{{ route('admin.digital-skills.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Digital Skills</a>
-                <a href="{{ route('admin.services.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Services</a>
-                <a href="{{ route('admin.team-members.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Team</a>
-                <a href="{{ route('admin.workspace-bookings.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Workspace</a>
-                <a href="{{ route('admin.users.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Users</a>
-            </nav>
-        </div>
+@extends('layouts.admin')
 
-        <!-- Main Content -->
-        <div class="flex-1 p-8">
+@section('title', 'Products Management')
+
+@section('content')
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h2 class="text-3xl font-bold text-gray-800">Products Management</h2>
@@ -127,7 +100,4 @@
             <div class="mt-6">
                 {{ $products->links() }}
             </div>
-        </div>
-    </div>
-</body>
-</html>
+@endsection
