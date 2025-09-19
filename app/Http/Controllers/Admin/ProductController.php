@@ -29,18 +29,23 @@ class ProductController extends Controller
             'description' => 'required|string',
             'short_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0',
+            'original_price' => 'nullable|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
             'sku' => 'nullable|string|unique:products',
+            'image' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'status' => 'required|in:active,inactive,draft',
             'featured' => 'boolean',
             'manage_stock' => 'boolean',
+            'in_stock' => 'boolean',
+            'badge' => 'nullable|string|max:50',
+            'entrepreneur' => 'nullable|string|max:255',
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
         $validated['featured'] = $request->has('featured');
         $validated['manage_stock'] = $request->has('manage_stock');
+        $validated['in_stock'] = $request->has('in_stock');
 
         Product::create($validated);
 
@@ -66,18 +71,23 @@ class ProductController extends Controller
             'description' => 'required|string',
             'short_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0',
+            'original_price' => 'nullable|numeric|min:0',
             'stock_quantity' => 'required|integer|min:0',
             'sku' => 'nullable|string|unique:products,sku,' . $product->id,
+            'image' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'status' => 'required|in:active,inactive,draft',
             'featured' => 'boolean',
             'manage_stock' => 'boolean',
+            'in_stock' => 'boolean',
+            'badge' => 'nullable|string|max:50',
+            'entrepreneur' => 'nullable|string|max:255',
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
         $validated['featured'] = $request->has('featured');
         $validated['manage_stock'] = $request->has('manage_stock');
+        $validated['in_stock'] = $request->has('in_stock');
 
         $product->update($validated);
 

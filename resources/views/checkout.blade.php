@@ -8,6 +8,7 @@
   <meta name="keywords" content="Emerge Ventures, checkout, payment, Malawi crafts">
   <meta name="description" content="Complete your purchase of authentic Malawian crafts and products from local entrepreneurs.">
   <meta name="author" content="Emerge Ventures">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- site Favicon -->
   <link rel="icon" href="assets/img/favicon/favicon.png" sizes="32x32">

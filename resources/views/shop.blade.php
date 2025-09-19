@@ -10,6 +10,7 @@
   <meta name="description"
     content="Shop authentic Malawian crafts and products from local entrepreneurs. Support community artisans with handmade bags, organic honey, pottery, and unique gifts.">
   <meta name="author" content="Emerge Ventures">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- site Favicon -->
   <link rel="icon" href="assets/img/favicon/favicon.png" sizes="32x32">
@@ -151,11 +152,15 @@
               <div class="filter-controls">
                 <select class="form-select filter-select" id="categoryFilter">
                   <option value="all">All Categories</option>
-                  <option value="bags">Bags & Accessories</option>
-                  <option value="honey">Honey & Food</option>
-                  <option value="pottery">Pottery & Crafts</option>
-                  <option value="beauty">Beauty Products</option>
-                  <option value="art">Art & Portraits</option>
+                  @forelse($categories as $category)
+                    <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                  @empty
+                    <option value="bags">Bags & Accessories</option>
+                    <option value="honey">Honey & Food</option>
+                    <option value="pottery">Pottery & Crafts</option>
+                    <option value="beauty">Beauty Products</option>
+                    <option value="art">Art & Portraits</option>
+                  @endforelse
                 </select>
                 <select class="form-select filter-select" id="sortFilter">
                   <option value="default">Sort by</option>
@@ -383,6 +388,13 @@
   <script src="assets/js/standard-navbar.js"></script>
   <script src="assets/js/lazy-loading.js"></script>
   <script src="assets/js/performance-optimizer.js"></script>
+  <script>
+    // Pass Laravel data to JavaScript
+    window.laravelData = {
+      products: @json($productsData),
+      categories: @json($categoriesData)
+    };
+  </script>
   <script src="assets/js/shop.js"></script>
 </body>
 

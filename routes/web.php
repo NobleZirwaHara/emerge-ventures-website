@@ -87,6 +87,20 @@ Route::get('/our-team', [App\Http\Controllers\TeamController::class, 'index'])->
 Route::get('/welcome', function () {
     return view('welcome');
 });
-Route::get('/shop', function () {
-    return view('shop');
+Route::get('/shop', [App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
+Route::get('/api/products', [App\Http\Controllers\ShopController::class, 'getProducts'])->name('api.products');
+Route::get('/api/products/{product}', [App\Http\Controllers\ShopController::class, 'show'])->name('api.products.show');
+Route::post('/api/orders', [App\Http\Controllers\ShopController::class, 'placeOrder'])->name('api.orders.store');
+
+// Test route to verify data
+Route::get('/test-shop-data', function() {
+    $products = App\Models\Product::with('category')->where('status', 'active')->get();
+    $categories = App\Models\Category::where('is_active', true)->get();
+    
+    return response()->json([
+        'products_count' => $products->count(),
+        'categories_count' => $categories->count(),
+        'first_product' => $products->first(),
+        'categories' => $categories->pluck('name', 'slug')
+    ]);
 });

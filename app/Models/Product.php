@@ -17,22 +17,27 @@ class Product extends Model
         'description',
         'short_description',
         'price',
-        'sale_price',
+        'original_price',
         'stock_quantity',
         'manage_stock',
         'sku',
+        'image',
         'images',
         'category_id',
         'status',
         'featured',
+        'in_stock',
+        'badge',
+        'entrepreneur',
         'attributes',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'sale_price' => 'decimal:2',
+        'original_price' => 'decimal:2',
         'manage_stock' => 'boolean',
         'featured' => 'boolean',
+        'in_stock' => 'boolean',
         'images' => 'array',
         'attributes' => 'array',
     ];
@@ -49,7 +54,12 @@ class Product extends Model
 
     public function getEffectivePriceAttribute()
     {
-        return $this->sale_price ?? $this->price;
+        return $this->original_price ? $this->price : $this->price;
+    }
+
+    public function getSalePriceAttribute()
+    {
+        return $this->original_price ? $this->price : null;
     }
 
     public function isInStock(): bool

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="bg-gray-800 text-white w-64 min-h-screen p-4">
+            <div class="mb-8">
+                <h1 class="text-xl font-bold">Admin Dashboard</h1>
+                <p class="text-gray-400">{{ auth()->user()->name }}</p>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
+                <a href="{{ route('admin.products.index') }}" class="block py-2 px-4 rounded bg-gray-700">Products</a>
+                <a href="{{ route('admin.orders.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Orders</a>
+                <a href="{{ route('admin.entrepreneurs.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Entrepreneurs</a>
+                <a href="{{ route('admin.digital-skills.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Digital Skills</a>
+                <a href="{{ route('admin.services.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Services</a>
+                <a href="{{ route('admin.team-members.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Team</a>
+                <a href="{{ route('admin.workspace-bookings.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Workspace</a>
+                <a href="{{ route('admin.users.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Users</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800">Create Product</h2>
+                    <p class="text-gray-600">Add a new product to your shop</p>
+                </div>
+                <a href="{{ route('admin.products.index') }}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+                    Back to Products
+                </a>
+            </div>
+
+            @if($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <form action="{{ route('admin.products.store') }}" method="POST">
+                    @csrf
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" 
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select name="category_id" id="category_id" 
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                <option value="">Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price (MWK)</label>
+                            <input type="number" name="price" id="price" value="{{ old('price') }}" step="0.01" min="0"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label for="original_price" class="block text-sm font-medium text-gray-700 mb-2">Original Price (MWK) - Optional</label>
+                            <input type="number" name="original_price" id="original_price" value="{{ old('original_price') }}" step="0.01" min="0"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-2">Stock Quantity</label>
+                            <input type="number" name="stock_quantity" id="stock_quantity" value="{{ old('stock_quantity', 0) }}" min="0"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label for="sku" class="block text-sm font-medium text-gray-700 mb-2">SKU - Optional</label>
+                            <input type="text" name="sku" id="sku" value="{{ old('sku') }}"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Image Path</label>
+                            <input type="text" name="image" id="image" value="{{ old('image') }}" 
+                                   placeholder="assets/img/gift-shop/product.webp"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="badge" class="block text-sm font-medium text-gray-700 mb-2">Badge - Optional</label>
+                            <input type="text" name="badge" id="badge" value="{{ old('badge') }}" 
+                                   placeholder="New, Sale, Popular, etc."
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="entrepreneur" class="block text-sm font-medium text-gray-700 mb-2">Entrepreneur Name</label>
+                            <input type="text" name="entrepreneur" id="entrepreneur" value="{{ old('entrepreneur') }}"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <select name="status" id="status" 
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea name="description" id="description" rows="4" 
+                                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ old('description') }}</textarea>
+                    </div>
+
+                    <div class="mt-6">
+                        <label for="short_description" class="block text-sm font-medium text-gray-700 mb-2">Short Description - Optional</label>
+                        <textarea name="short_description" id="short_description" rows="2" 
+                                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('short_description') }}</textarea>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? 'checked' : '' }}
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="featured" class="ml-2 block text-sm text-gray-900">Featured Product</label>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" name="manage_stock" id="manage_stock" value="1" {{ old('manage_stock', true) ? 'checked' : '' }}
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="manage_stock" class="ml-2 block text-sm text-gray-900">Manage Stock</label>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" name="in_stock" id="in_stock" value="1" {{ old('in_stock', true) ? 'checked' : '' }}
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="in_stock" class="ml-2 block text-sm text-gray-900">In Stock</label>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end space-x-4">
+                        <a href="{{ route('admin.products.index') }}" 
+                           class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                            Cancel
+                        </a>
+                        <button type="submit" 
+                                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                            Create Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

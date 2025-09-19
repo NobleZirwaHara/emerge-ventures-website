@@ -1,224 +1,24 @@
 // Shop JavaScript Functionality
 
-// Product Data
-const products = [
-  {
-    id: 1,
-    name: "Handwoven Traditional Bag",
-    category: "bags",
-    price: 15000,
-    originalPrice: 18000,
-    image: "assets/img/gift-shop/IMG-2.webp",
-    description: "Beautiful handwoven bag made by local artisans using traditional techniques. Perfect for daily use or as a unique gift.",
-    badge: "Popular",
-    inStock: true,
-    entrepreneur: "Grace Mwale"
-  },
-  {
-    id: 2,
-    name: "Pure Organic Honey",
-    category: "honey",
-    price: 8000,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-3.webp",
-    description: "100% pure organic honey harvested from local beekeepers. Rich in natural nutrients and perfect for health-conscious consumers.",
-    badge: "Organic",
-    inStock: true,
-    entrepreneur: "John Banda"
-  },
-  {
-    id: 3,
-    name: "Ceramic Flower Pot",
-    category: "pottery",
-    price: 5500,
-    originalPrice: 7000,
-    image: "assets/img/gift-shop/IMG-4.webp",
-    description: "Handcrafted ceramic flower pot with traditional Malawian designs. Perfect for indoor and outdoor plants.",
-    badge: "Sale",
-    inStock: true,
-    entrepreneur: "Mary Phiri"
-  },
-  {
-    id: 4,
-    name: "Natural Body Scrub",
-    category: "beauty",
-    price: 3500,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-5.webp",
-    description: "Natural body scrub made from local ingredients. Exfoliates and moisturizes your skin naturally.",
-    badge: "New",
-    inStock: true,
-    entrepreneur: "Sarah Tembo"
-  },
-  {
-    id: 5,
-    name: "Artisan Portrait Frame",
-    category: "art",
-    price: 12000,
-    originalPrice: 15000,
-    image: "assets/img/gift-shop/IMG-6.webp",
-    description: "Beautifully crafted wooden portrait frame with intricate carvings. Showcase your memories in style.",
-    badge: "Handmade",
-    inStock: true,
-    entrepreneur: "Peter Mbewe"
-  },
-  {
-    id: 6,
-    name: "Traditional Woven Basket",
-    category: "bags",
-    price: 9500,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-7.webp",
-    description: "Traditional woven basket perfect for storage or decoration. Made using sustainable materials.",
-    badge: "Eco-Friendly",
-    inStock: true,
-    entrepreneur: "Agnes Chirwa"
-  },
-  {
-    id: 7,
-    name: "Herbal Face Powder",
-    category: "beauty",
-    price: 4200,
-    originalPrice: 5000,
-    image: "assets/img/gift-shop/IMG-8.webp",
-    description: "Natural herbal face powder made from traditional ingredients. Suitable for all skin types.",
-    badge: "Natural",
-    inStock: true,
-    entrepreneur: "Ruth Kachala"
-  },
-  {
-    id: 8,
-    name: "Decorative Clay Pot",
-    category: "pottery",
-    price: 6800,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-9.webp",
-    description: "Decorative clay pot with beautiful patterns. Perfect for home decoration or as a planter.",
-    badge: "Unique",
-    inStock: true,
-    entrepreneur: "James Nyirenda"
-  },
-  {
-    id: 9,
-    name: "Leather Handbag",
-    category: "bags",
-    price: 22000,
-    originalPrice: 25000,
-    image: "assets/img/gift-shop/IMG-10.webp",
-    description: "Premium leather handbag crafted by skilled artisans. Durable and stylish for everyday use.",
-    badge: "Premium",
-    inStock: true,
-    entrepreneur: "Elizabeth Mvula"
-  },
-  {
-    id: 10,
-    name: "Wooden Art Sculpture",
-    category: "art",
-    price: 18500,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-11.webp",
-    description: "Handcarved wooden sculpture representing Malawian culture. A perfect piece for art collectors.",
-    badge: "Cultural",
-    inStock: true,
-    entrepreneur: "Daniel Chisale"
-  },
-  {
-    id: 11,
-    name: "Organic Honey Jar Set",
-    category: "honey",
-    price: 16000,
-    originalPrice: 20000,
-    image: "assets/img/gift-shop/IMG-12.webp",
-    description: "Set of three different honey varieties from local beekeepers. Perfect for gifting or personal use.",
-    badge: "Gift Set",
-    inStock: true,
-    entrepreneur: "Moses Kamanga"
-  },
-  {
-    id: 12,
-    name: "Handmade Soap Collection",
-    category: "beauty",
-    price: 7500,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-13.webp",
-    description: "Collection of handmade soaps with natural ingredients. Gentle on skin and environmentally friendly.",
-    badge: "Collection",
-    inStock: true,
-    entrepreneur: "Joyce Mwanza"
-  },
-  {
-    id: 13,
-    name: "Woven Storage Basket",
-    category: "bags",
-    price: 11000,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-14.webp",
-    description: "Beautifully woven storage basket perfect for organizing your home. Made with sustainable materials.",
-    badge: "Sustainable",
-    inStock: true,
-    entrepreneur: "Faith Banda"
-  },
-  {
-    id: 14,
-    name: "Traditional Pottery Set",
-    category: "pottery",
-    price: 8500,
-    originalPrice: 10000,
-    image: "assets/img/gift-shop/IMG-15.webp",
-    description: "Set of traditional pottery pieces with authentic Malawian designs. Perfect for home decoration.",
-    badge: "Traditional",
-    inStock: true,
-    entrepreneur: "Samuel Mwale"
-  },
-  {
-    id: 15,
-    name: "Natural Skincare Kit",
-    category: "beauty",
-    price: 6500,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-16.webp",
-    description: "Complete natural skincare kit with locally sourced ingredients. Gentle and effective for all skin types.",
-    badge: "Kit",
-    inStock: true,
-    entrepreneur: "Mercy Phiri"
-  },
-  {
-    id: 16,
-    name: "Carved Wooden Bowl",
-    category: "art",
-    price: 7200,
-    originalPrice: 8500,
-    image: "assets/img/gift-shop/IMG-17.webp",
-    description: "Hand-carved wooden bowl with intricate patterns. Perfect for serving or decoration.",
-    badge: "Artisan",
-    inStock: true,
-    entrepreneur: "Joseph Tembo"
-  },
-  {
-    id: 17,
-    name: "Beaded Jewelry Set",
-    category: "bags",
-    price: 4800,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-18.webp",
-    description: "Beautiful beaded jewelry set handcrafted by local artisans. Includes necklace and earrings.",
-    badge: "Handcrafted",
-    inStock: true,
-    entrepreneur: "Rose Chirwa"
-  },
-  {
-    id: 18,
-    name: "Herbal Tea Blend",
-    category: "honey",
-    price: 3200,
-    originalPrice: null,
-    image: "assets/img/gift-shop/IMG-19.webp",
-    description: "Premium herbal tea blend made from locally grown herbs. Perfect for relaxation and wellness.",
-    badge: "Wellness",
-    inStock: true,
-    entrepreneur: "Patrick Kachala"
-  }
-];
+// Product Data - Load from Laravel
+let products = [];
+
+// Load products from Laravel data
+if (window.laravelData && window.laravelData.products) {
+  products = window.laravelData.products;
+} else {
+  // Fallback to fetch from API if Laravel data not available
+  fetch('/api/products')
+    .then(response => response.json())
+    .then(data => {
+      products = data.products;
+      renderProducts(products);
+      updateCartUI();
+    })
+    .catch(error => {
+      console.error('Error loading products:', error);
+    });
+}
 
 // Cart functionality
 let cart = JSON.parse(localStorage.getItem('emergeCart')) || [];
@@ -237,9 +37,30 @@ const productCount = document.getElementById('productCount');
 
 // Initialize shop
 document.addEventListener('DOMContentLoaded', function() {
-  renderProducts(products);
-  updateCartUI();
-  setupEventListeners();
+  // Wait for Laravel data to be available
+  if (products.length > 0) {
+    renderProducts(products);
+    updateCartUI();
+    setupEventListeners();
+  } else {
+    // Fallback: try to load from API
+    setTimeout(() => {
+      if (products.length === 0) {
+        fetch('/api/products')
+          .then(response => response.json())
+          .then(data => {
+            products = data.products;
+            renderProducts(products);
+            updateCartUI();
+            setupEventListeners();
+          })
+          .catch(error => {
+            console.error('Error loading products:', error);
+            setupEventListeners();
+          });
+      }
+    }, 100);
+  }
 });
 
 // Setup event listeners
@@ -348,6 +169,15 @@ function getCategoryName(category) {
 function addToCart(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
+  // Enforce stock limits
+  if (product.manageStock) {
+    const existing = cart.find(item => item.id === productId);
+    const currentQty = existing ? existing.quantity : 0;
+    if (currentQty + 1 > product.stockQuantity) {
+      showToast('Not enough stock available', 'error');
+      return;
+    }
+  }
   
   const existingItem = cart.find(item => item.id === productId);
   
@@ -387,6 +217,12 @@ function updateQuantity(productId, newQuantity) {
   
   const item = cart.find(item => item.id === productId);
   if (item) {
+    // Enforce stock limits
+    const product = products.find(p => p.id === productId);
+    if (product && product.manageStock && newQuantity > product.stockQuantity) {
+      showToast('Quantity exceeds available stock', 'error');
+      newQuantity = product.stockQuantity;
+    }
     item.quantity = newQuantity;
     saveCart();
     updateCartUI();

@@ -78,9 +78,9 @@
                                 {{ $product->category->name ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                ${{ number_format($product->price, 2) }}
-                                @if($product->sale_price)
-                                    <span class="text-red-600">${{ number_format($product->sale_price, 2) }}</span>
+                                MWK {{ number_format($product->price, 0) }}
+                                @if($product->original_price)
+                                    <span class="text-gray-500 line-through">MWK {{ number_format($product->original_price, 0) }}</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

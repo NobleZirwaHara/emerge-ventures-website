@@ -127,7 +127,7 @@ function handleCheckoutSubmit(e) {
   // Simulate order processing
   setTimeout(() => {
     processOrder(orderData);
-  }, 2000);
+  }, 200);
 }
 
 // Validate checkout form
@@ -161,22 +161,45 @@ function validateCheckoutForm(orderData) {
 // Process order
 function processOrder(orderData) {
   try {
-    // Save order to localStorage (in a real app, this would be sent to a server)
-    const orders = JSON.parse(localStorage.getItem('emergeOrders')) || [];
-    orders.push(orderData);
-    localStorage.setItem('emergeOrders', JSON.stringify(orders));
-    
-    // Clear cart
-    localStorage.removeItem('emergeCart');
-    
-    // Show success message and redirect
-    showOrderSuccess(orderData);
-    
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': token
+      },
+      body: JSON.stringify(orderData)
+    })
+      .then(async (res) => {
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(body.error || body.message || 'Failed to place order');
+        }
+        return body;
+      })
+      .then((data) => {
+        // Clear cart on success
+        localStorage.removeItem('emergeCart');
+        // Reflect server order in the success screen
+        const serverOrder = {
+          ...orderData,
+          orderId: data.order.order_number,
+          total: data.order.total
+        };
+        showOrderSuccess(serverOrder);
+      })
+      .catch((error) => {
+        console.error('Order processing error:', error);
+        // Do not clear cart; show specific reason if present
+        showToast(error.message || 'There was an error processing your order. Please adjust your cart.', 'error');
+        const submitButton = checkoutForm.querySelector('button[type="submit"]');
+        submitButton.innerHTML = '<span>Place Order</span><i class="fas fa-check"></i>';
+        submitButton.disabled = false;
+      });
   } catch (error) {
     console.error('Order processing error:', error);
     showToast('There was an error processing your order. Please try again.', 'error');
-    
-    // Reset submit button
     const submitButton = checkoutForm.querySelector('button[type="submit"]');
     submitButton.innerHTML = '<span>Place Order</span><i class="fas fa-check"></i>';
     submitButton.disabled = false;
@@ -219,7 +242,7 @@ function showOrderSuccess(orderData) {
       
       <div class="action-buttons">
         <a href="shop" class="btn btn-primary me-3">Continue Shopping</a>
-        <a href="index" class="btn btn-outline-primary">Back to Home</a>
+        <a href="/" class="btn btn-outline-primary">Back to Home</a>
       </div>
     </div>
   `;

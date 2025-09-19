@@ -26,7 +26,6 @@
                 <a href="{{ route('admin.team-members.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Team</a>
                 <a href="{{ route('admin.workspace-bookings.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Workspace</a>
                 <a href="{{ route('admin.users.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Users</a>
-                <a href="{{ route('dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700">User Dashboard</a>
             </nav>
         </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DigitalSkill;
+use App\Models\DigitalSkillApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -34,11 +35,17 @@ class DigitalSkillController extends Controller
             'end_date' => 'nullable|date|after:start_date',
             'is_active' => 'boolean',
             'featured' => 'boolean',
+            'features' => 'nullable|array',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_active'] = $request->has('is_active');
         $validated['featured'] = $request->has('featured');
+
+        // Process features to remove empty values
+        if (isset($validated['features'])) {
+            $validated['features'] = array_values(array_filter($validated['features']));
+        }
 
         DigitalSkill::create($validated);
 
@@ -70,11 +77,17 @@ class DigitalSkillController extends Controller
             'end_date' => 'nullable|date|after:start_date',
             'is_active' => 'boolean',
             'featured' => 'boolean',
+            'features' => 'nullable|array',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_active'] = $request->has('is_active');
         $validated['featured'] = $request->has('featured');
+
+        // Process features to remove empty values
+        if (isset($validated['features'])) {
+            $validated['features'] = array_values(array_filter($validated['features']));
+        }
 
         $digitalSkill->update($validated);
 
