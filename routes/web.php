@@ -3,8 +3,15 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\DigitalSkill;
+
 Route::get('/', function () {
-    return view('index');
+    $featuredSkills = DigitalSkill::where('featured', true)
+        ->where('is_active', true)
+        ->orderBy('created_at', 'desc')
+        ->take(6)
+        ->get();
+    return view('index', ['digitalSkills' => $featuredSkills]);
 });
 
 Route::get('/dashboard', function () {
@@ -44,7 +51,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class);
     
     // Team Management
-    Route::resource('team', App\Http\Controllers\Admin\TeamController::class)->names('team');
+    Route::resource('team-members', App\Http\Controllers\Admin\TeamMemberController::class);
     
     // Workspace Bookings Management
     Route::get('workspace-bookings', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'index'])->name('workspace-bookings.index');

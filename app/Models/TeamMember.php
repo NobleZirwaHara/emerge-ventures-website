@@ -20,6 +20,10 @@ class TeamMember extends Model
         'experience_years',
         'is_active',
         'sort_order',
+        'facebook',
+        'twitter',
+        'linkedin',
+        'phone',
     ];
 
     protected $casts = [

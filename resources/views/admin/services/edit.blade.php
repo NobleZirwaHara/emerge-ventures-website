@@ -86,6 +86,13 @@
                         <label for="is_active" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
                     </div>
                 </div>
+                <div class="flex items-center justify-between mt-4">
+                    <label for="featured" class="text-sm font-medium text-gray-700">Featured</label>
+                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured', $service->featured) ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                        <label for="featured" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                </div>
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md">

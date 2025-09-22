@@ -54,6 +54,27 @@
                     @error('bio') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4">Social Media</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="facebook" class="block text-sm font-medium text-gray-700">Facebook URL</label>
+                        <input type="url" id="facebook" name="facebook" value="{{ old('facebook', $teamMember->facebook) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('facebook') border-red-500 @enderror">
+                        @error('facebook') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="twitter" class="block text-sm font-medium text-gray-700">Twitter URL</label>
+                        <input type="url" id="twitter" name="twitter" value="{{ old('twitter', $teamMember->twitter) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('twitter') border-red-500 @enderror">
+                        @error('twitter') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label>
+                        <input type="url" id="linkedin" name="linkedin" value="{{ old('linkedin', $teamMember->linkedin) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('linkedin') border-red-500 @enderror">
+                        @error('linkedin') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Sidebar -->
