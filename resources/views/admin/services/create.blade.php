@@ -1,131 +1,151 @@
 @extends('layouts.admin')
 
-@section('title', 'Add New Service')
-
-@section('header')
-<div class="flex justify-between items-center mb-6">
-    <div>
-        <h2 class="text-3xl font-bold text-gray-800">Add New Service</h2>
-        <p class="text-gray-600">Create a new business service</p>
-    </div>
-    <a href="{{ route('admin.services.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-        <i class="fas fa-arrow-left mr-2"></i>
-        Back to Services
-    </a>
-</div>
-@endsection
-
 @section('content')
-<form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
-    @csrf
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Service Information</h3>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Add New Service</h1>
+        <a href="{{ route('admin.services.index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 
-                <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Service Name <span class="text-red-500">*</span></label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror">
-                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Service Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                   id="name" name="name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                <div class="mb-4">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea id="description" name="description" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
-                    @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                      id="description" name="description" rows="5">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700">Price (MWK)</label>
-                        <input type="number" step="1" id="price" name="price" value="{{ old('price') }}" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('price') border-red-500 @enderror">
-                        <p class="text-xs text-gray-500 mt-1">Leave empty for variable pricing.</p>
-                        @error('price') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="category_id" class="form-label">Category <span class="text-danger">*</span></label>
+                                    <select class="form-select @error('category_id') is-invalid @enderror"
+                                            id="category_id" name="category_id" required>
+                                        <option value="">Select Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Price <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror"
+                                               id="price" name="price" value="{{ old('price') }}" required>
+                                        @error('price')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
-                        <select id="category_id" name="category_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('category_id') border-red-500 @enderror">
-                            <option value="">Select Category</option>
-                        </select>
-                        @error('category_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                     <div>
-                        <label for="icon" class="block text-sm font-medium text-gray-700">FontAwesome Icon Class</label>
-                        <input type="text" id="icon" name="icon" value="{{ old('icon') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('icon') border-red-500 @enderror">
-                        <p class="text-xs text-gray-500 mt-1">e.g., 'fas fa-cogs'. Find icons on FontAwesome.</p>
-                        @error('icon') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Service Image</h3>
-                <div class="text-center">
-                    <img id="image-preview" src="{{ asset('assets/img/placeholder.jpg') }}" alt="Image preview" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <input type="file" id="image" name="image" accept="image/*" class="hidden @error('image') border-red-500 @enderror" onchange="previewImage(event)">
-                    <label for="image" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-upload mr-2"></i> Choose Image
-                    </label>
-                    <p class="text-xs text-gray-500 mt-2">Optional. Max file size: 2MB.</p>
-                    @error('image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">Featured Image</h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <img id="imagePreview" src="{{ asset('assets/images/placeholder.jpg') }}"
+                                         alt="Image Preview" class="img-fluid rounded" style="max-height: 200px;">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                           id="image" name="image" onchange="previewImage(this)">
+                                    @error('image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Settings</h3>
-
-                <div class="flex items-center justify-between">
-                    <label for="is_active" class="text-sm font-medium text-gray-700">Active</label>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="is_active" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between mt-4">
-                    <label for="featured" class="text-sm font-medium text-gray-700">Featured</label>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured') ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="featured" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">Settings</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="is_featured"
+                                               name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_featured">Featured Service</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="is_active"
+                                               name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">Active</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mb-2">
-                    <i class="fas fa-save mr-2"></i> Save Service
-                </button>
-                <button type="reset" class="w-full bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300">
-                    <i class="fas fa-undo mr-2"></i> Reset Form
-                </button>
-            </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="reset" class="btn btn-outline-secondary me-md-2">
+                        <i class="fas fa-undo me-1"></i> Reset
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Create Service
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</form>
-
-<style>
-.toggle-checkbox:checked {
-  right: 0;
-  border-color: #4A90E2;
-}
-.toggle-checkbox:checked + .toggle-label {
-  background-color: #4A90E2;
-}
-</style>
+</div>
 
 @push('scripts')
 <script>
-    function previewImage(event) {
+    function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        const file = input.files[0];
         const reader = new FileReader();
-        reader.onload = function(){
-            const output = document.getElementById('image-preview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "{{ asset('assets/images/placeholder.jpg') }}";
+        }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize any required plugins here
+    });
 </script>
 @endpush
 @endsection

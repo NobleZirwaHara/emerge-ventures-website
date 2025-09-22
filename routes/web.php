@@ -3,15 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-use App\Models\DigitalSkill;
-
 Route::get('/', function () {
-    $featuredSkills = DigitalSkill::where('featured', true)
-        ->where('is_active', true)
-        ->orderBy('created_at', 'desc')
-        ->take(6)
-        ->get();
-    return view('index', ['digitalSkills' => $featuredSkills]);
+    return view('index');
 });
 
 Route::get('/dashboard', function () {
@@ -60,9 +53,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
-    Route::patch('users/{user}/ban', [App\Http\Controllers\Admin\UserController::class, 'ban'])->name('users.ban');
-    Route::patch('users/{user}/unban', [App\Http\Controllers\Admin\UserController::class, 'unban'])->name('users.unban');
-    Route::post('users/{user}/impersonate', [App\Http\Controllers\Admin\UserController::class, 'impersonate'])->name('users.impersonate');
 });
 
 Route::middleware('auth')->group(function () {

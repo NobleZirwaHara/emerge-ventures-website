@@ -29,18 +29,9 @@ class TeamMemberController extends Controller
             'experience_years' => 'nullable|integer|min:0',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
-            'facebook' => 'nullable|url',
-            'twitter' => 'nullable|url',
-            'linkedin' => 'nullable|url',
-            'phone' => 'nullable|string|max:20',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
-
-        if ($request->hasFile('photo')) {
-            $validated['profile_image'] = $request->file('photo')->store('team', 'public');
-        }
 
         TeamMember::create($validated);
 
@@ -68,18 +59,9 @@ class TeamMemberController extends Controller
             'experience_years' => 'nullable|integer|min:0',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
-            'facebook' => 'nullable|url',
-            'twitter' => 'nullable|url',
-            'linkedin' => 'nullable|url',
-            'phone' => 'nullable|string|max:20',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $validated['is_active'] = $request->has('is_active');
-
-        if ($request->hasFile('photo')) {
-            $validated['profile_image'] = $request->file('photo')->store('team', 'public');
-        }
 
         $teamMember->update($validated);
 

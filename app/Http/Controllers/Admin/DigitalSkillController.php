@@ -35,26 +35,16 @@ class DigitalSkillController extends Controller
             'end_date' => 'nullable|date|after:start_date',
             'is_active' => 'boolean',
             'featured' => 'boolean',
-            'prerequisites' => 'nullable|array',
-            'prerequisites.*' => 'nullable|string',
-            'learning_outcomes' => 'nullable|array',
-            'learning_outcomes.*' => 'nullable|string',
             'features' => 'nullable|array',
-            'features.*' => 'nullable|string',
-            'image' => 'nullable|url',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_active'] = $request->has('is_active');
         $validated['featured'] = $request->has('featured');
 
-        // Process arrays to remove empty values
-        foreach (['prerequisites', 'learning_outcomes', 'features'] as $field) {
-            if (isset($validated[$field])) {
-                $validated[$field] = array_values(array_filter($validated[$field]));
-            } else {
-                $validated[$field] = [];
-            }
+        // Process features to remove empty values
+        if (isset($validated['features'])) {
+            $validated['features'] = array_values(array_filter($validated['features']));
         }
 
         DigitalSkill::create($validated);
@@ -87,26 +77,16 @@ class DigitalSkillController extends Controller
             'end_date' => 'nullable|date|after:start_date',
             'is_active' => 'boolean',
             'featured' => 'boolean',
-            'prerequisites' => 'nullable|array',
-            'prerequisites.*' => 'nullable|string',
-            'learning_outcomes' => 'nullable|array',
-            'learning_outcomes.*' => 'nullable|string',
             'features' => 'nullable|array',
-            'features.*' => 'nullable|string',
-            'image' => 'nullable|url',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_active'] = $request->has('is_active');
         $validated['featured'] = $request->has('featured');
 
-        // Process arrays to remove empty values
-        foreach (['prerequisites', 'learning_outcomes', 'features'] as $field) {
-            if (isset($validated[$field])) {
-                $validated[$field] = array_values(array_filter($validated[$field]));
-            } else {
-                $validated[$field] = [];
-            }
+        // Process features to remove empty values
+        if (isset($validated['features'])) {
+            $validated['features'] = array_values(array_filter($validated['features']));
         }
 
         $digitalSkill->update($validated);

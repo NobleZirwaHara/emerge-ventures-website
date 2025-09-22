@@ -334,33 +334,60 @@
       </div>
 
       <div class="row">
-        @if(isset($digitalSkills) && $digitalSkills->count() > 0)
-          @foreach($digitalSkills as $skill)
-          <div class="col-md-4">
-              <div class="program-card">
-                  <img src="{{ $skill->image }}" class="card-img-top" alt="{{ $skill->title }}">
-                  <div class="card-body">
-                      <h5 class="card-title">{{ $skill->title }}</h5>
-                      <p class="card-text">{{ $skill->short_description }}</p>
-                      @if(is_array($skill->learning_outcomes) && count($skill->learning_outcomes) > 0)
-                          <ul class="list-unstyled">
-                              @foreach(array_slice($skill->learning_outcomes, 0, 3) as $outcome)
-                                  <li><i class="fas fa-check text-success me-2"></i> {{ $outcome }}</li>
-                              @endforeach
-                          </ul>
-                      @endif
-                      <a href="#" class="btn btn-primary mt-3" data-bs-toggle="modal"
-                          data-bs-target="#programDetailsModal" data-program-id="{{ $skill->slug }}">Learn More</a>
-                  </div>
-              </div>
+        <div class="col-md-4">
+          <div class="program-card">
+            <img src="assets/img/digital-skills/IMG-11.jpg" class="card-img-top" alt="Basic Digital Literacy">
+            <div class="card-body">
+              <h5 class="card-title">Basic Digital Literacy</h5>
+              <p class="card-text">Learn essential computer and internet skills to navigate the digital world with
+                confidence.</p>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i> Computer fundamentals</li>
+                <li><i class="fas fa-check text-success me-2"></i> Internet basics</li>
+                <li><i class="fas fa-check text-success me-2"></i> Email & communication</li>
+              </ul>
+              <a href="#" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#programDetailsModal"
+                data-program-id="basic">Learn More</a>
+            </div>
           </div>
-          @endforeach
-        @else
-          <p class="text-white">No featured programs available at the moment. Please check back later.</p>
-        @endif
+        </div>
+
+        <div class="col-md-4">
+          <div class="program-card">
+            <img src="assets/img/digital-skills/IMG-14.jpg" class="card-img-top" alt="Web Development">
+            <div class="card-body">
+              <h5 class="card-title">Web Development</h5>
+              <p class="card-text">Master the skills to build responsive and interactive websites from scratch.</p>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i> HTML5 & CSS3</li>
+                <li><i class="fas fa-check text-success me-2"></i> JavaScript & jQuery</li>
+                <li><i class="fas fa-check text-success me-2"></i> Responsive design</li>
+              </ul>
+              <a href="#" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#programDetailsModal"
+                data-program-id="web">Learn More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="program-card">
+            <img src="assets/img/digital-skills/IMG-18.jpg" class="card-img-top" alt="Digital Marketing">
+            <div class="card-body">
+              <h5 class="card-title">Digital Marketing</h5>
+              <p class="card-text">Learn to create effective digital marketing strategies and campaigns.</p>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-check text-success me-2"></i> Social media marketing</li>
+                <li><i class="fas fa-check text-success me-2"></i> SEO & content marketing</li>
+                <li><i class="fas fa-check text-success me-2"></i> Email marketing</li>
+              </ul>
+              <a href="#" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#programDetailsModal"
+                data-program-id="marketing">Learn More</a>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="text-center mt-5">
-        <a href="{{ route('digital-skills.index') }}" class="btn btn-primary btn-lg rounded-pill px-5"
+        <a href="/digital-skills.html#programs" class="btn btn-primary btn-lg rounded-pill px-5"
           style="background-color:#4C808A; border-color:#4C808A;">
           View More Courses
         </a>
@@ -368,68 +395,103 @@
     </div>
   </section>
 
+  <!-- Program Details Modal -->
+  <div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="programDetailsModalLabel">Program Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="program-details">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <div class="detail-item">
+                    <h3>Program Details</h3>
+                    <p>Our Digital Skills Training programs are designed to be accessible to everyone, regardless of
+                      their current skill level. Whether you're a complete beginner or looking to enhance your existing
+                      skills, we have a program that's right for you.</p>
+                    <p>Each program combines theoretical knowledge with practical, hands-on experience to ensure you
+                      gain the skills needed to succeed in today's digital economy. Our flexible scheduling options make
+                      it easy to balance your education with other commitments.</p>
+                  </div>
+
+                  <div class="detail-item">
+                    <h3>Who Should Attend?</h3>
+                    <ul>
+                      <li>Recent graduates looking to enhance their employability</li>
+                      <li>Professionals seeking to upskill or change careers</li>
+                      <li>Entrepreneurs wanting to leverage digital tools for business growth</li>
+                      <li>Anyone interested in acquiring valuable digital skills</li>
+                    </ul>
+                  </div>
+
+                  <div class="detail-item">
+                    <h3>Certification</h3>
+                    <p>Upon successful completion of any of our programs, participants will receive a certificate of
+                      completion, validating their newly acquired skills and knowledge.</p>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">Apply
+                      Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Apply Modal -->
   <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="applyModalLabel">Apply for Digital Skills Training</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  <form id="trainingApplicationForm">
-                      <div class="mb-3">
-                          <label for="fullName" class="form-label">Full Name</label>
-                          <input type="text" class="form-control" id="fullName" name="fullName" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="email" class="form-label">Email Address</label>
-                          <input type="email" class="form-control" id="email" name="email" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="phone" class="form-label">Phone Number</label>
-                          <input type="tel" class="form-control" id="phone" name="phone" required>
-                      </div>
-                      <div class="mb-3">
-                          <label for="program" class="form-label">Program of Interest</label>
-                          <select class="form-select" id="program" name="program" required>
-                              <option value="" selected disabled>Select a program</option>
-                              @if(isset($digitalSkills))
-                                @foreach($digitalSkills as $skill)
-                                    <option value="{{ $skill->slug }}">{{ $skill->title }}</option>
-                                @endforeach
-                              @endif
-                          </select>
-                      </div>
-                      <div class="mb-3">
-                          <label for="message" class="form-label">Why are you interested in this program?</label>
-                          <textarea class="form-control" id="message" name="message" rows="3"></textarea>
-                      </div>
-                      <div class="d-grid">
-                          <button type="submit" class="btn btn-primary">Submit Application</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-  <!-- Program Details Modal -->
-  <div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="programDetailsModalLabel">Program Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Content will be dynamically loaded -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
-            </div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="applyModalLabel">Apply for Digital Skills Training</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <form id="trainingApplicationForm">
+            <div class="mb-3">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="fullName" name="fullName" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="mb-3">
+              <label for="program" class="form-label">Program of Interest</label>
+              <select class="form-select" id="program" name="program" required>
+                <option value="" selected disabled>Select a program</option>
+                <option value="basic">Basic Digital Literacy</option>
+                <option value="web">Web Development</option>
+                <option value="marketing">Digital Marketing</option>
+                <option value="graphic">Graphic Design</option>
+                <option value="python">Python Programming</option>
+                <option value="data">Data Analysis</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Why are you interested in this program?</label>
+              <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Submit Application</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
   <!-- Service Section -->
@@ -460,73 +522,5 @@
     </div>
     </div>
   </section>
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var programDetailsModal = document.getElementById('programDetailsModal');
-    if (programDetailsModal) {
-        programDetailsModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var slug = button.getAttribute('data-program-id');
-            var modalTitle = programDetailsModal.querySelector('.modal-title');
-            var modalBody = programDetailsModal.querySelector('.modal-body');
-
-            // Show a loading state
-            modalTitle.textContent = 'Loading...';
-            modalBody.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-
-            // Fetch the program details
-            fetch('/api/digital-skills/' + slug)
-                .then(response => response.json())
-                .then(data => {
-                    modalTitle.textContent = data.title;
-
-                    let featuresHtml = data.features && data.features.length > 0
-                        ? '<h5>Key Features</h5><ul>' + data.features.map(item => `<li>${item}</li>`).join('') + '</ul>'
-                        : '';
-
-                    let prerequisitesHtml = data.prerequisites && data.prerequisites.length > 0
-                        ? '<h5>Prerequisites</h5><ul>' + data.prerequisites.map(item => `<li>${item}</li>`).join('') + '</ul>'
-                        : '';
-
-                    let outcomesHtml = data.learning_outcomes && data.learning_outcomes.length > 0
-                        ? '<h5>Learning Outcomes</h5><ul>' + data.learning_outcomes.map(item => `<li>${item}</li>`).join('') + '</ul>'
-                        : '';
-
-                    modalBody.innerHTML = `
-                        <img src="${data.image}" alt="${data.title}" class="img-fluid rounded mb-3">
-                        <p class="lead">${data.short_description}</p>
-                        <p>${data.description}</p>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">${prerequisitesHtml}</div>
-                            <div class="col-md-6">${outcomesHtml}</div>
-                        </div>
-                        <hr>
-                        ${featuresHtml}
-                        <hr>
-                        <div class="d-flex justify-content-between">
-                            <span><strong>Level:</strong> ${data.level}</span>
-                            <span><strong>Duration:</strong> ${data.duration_hours} hours</span>
-                            <span><strong>Price:</strong> MWK ${Number(data.price).toLocaleString()}</span>
-                        </div>
-                    `;
-
-                    // Also update the apply modal's dropdown
-                    var applyModalProgramSelect = document.querySelector('#applyModal #program');
-                    if (applyModalProgramSelect) {
-                        applyModalProgramSelect.value = slug;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    modalTitle.textContent = 'Error';
-                    modalBody.innerHTML = '<p>Could not load program details. Please try again later.</p>';
-                });
-        });
-    }
-});
-</script>
-@endpush
 </body>
 @endsection

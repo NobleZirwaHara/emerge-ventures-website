@@ -241,7 +241,6 @@
   <script src="{{ asset('assets/js/performance-optimizer.js') }}"></script>
   <script src="{{ asset('assets/programs.js') }}"></script>
 
-  @stack('scripts')
 </body>
 
 </html>

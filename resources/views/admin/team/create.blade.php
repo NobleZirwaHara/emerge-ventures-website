@@ -1,145 +1,240 @@
 @extends('layouts.admin')
 
-@section('title', 'Add New Team Member')
-
-@section('header')
-<div class="flex justify-between items-center mb-6">
-    <div>
-        <h2 class="text-3xl font-bold text-gray-800">Add New Team Member</h2>
-        <p class="text-gray-600">Create a new team member profile</p>
-    </div>
-    <a href="{{ route('admin.team.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-        <i class="fas fa-arrow-left mr-2"></i>
-        Back to Team
-    </a>
-</div>
-@endsection
-
 @section('content')
-<form action="{{ route('admin.team.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
-    @csrf
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Basic Information</h3>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Add New Team Member</h1>
+        <a href="{{ route('admin.team-members.index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form action="{{ route('admin.team-members.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror">
-                        @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                           id="name" name="name" value="{{ old('name') }}" required>
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="position" class="form-label">Position <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('position') is-invalid @enderror"
+                                           id="position" name="position" value="{{ old('position') }}" required>
+                                    @error('position')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                           id="email" name="email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                           id="phone" name="phone" value="{{ old('phone') }}">
+                                    @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bio" class="form-label">Bio</label>
+                            <textarea class="form-control @error('bio') is-invalid @enderror"
+                                      id="bio" name="bio" rows="4">{{ old('bio') }}</textarea>
+                            @error('bio')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="facebook" class="form-label">Facebook Profile</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-facebook"></i></span>
+                                        <input type="url" class="form-control @error('facebook') is-invalid @enderror"
+                                               id="facebook" name="facebook" value="{{ old('facebook') }}" placeholder="https://facebook.com/username">
+                                    </div>
+                                    @error('facebook')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="twitter" class="form-label">Twitter Profile</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-twitter"></i></span>
+                                        <input type="url" class="form-control @error('twitter') is-invalid @enderror"
+                                               id="twitter" name="twitter" value="{{ old('twitter') }}" placeholder="https://twitter.com/username">
+                                    </div>
+                                    @error('twitter')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="linkedin" class="form-label">LinkedIn Profile</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
+                                        <input type="url" class="form-control @error('linkedin') is-invalid @enderror"
+                                               id="linkedin" name="linkedin" value="{{ old('linkedin') }}" placeholder="https://linkedin.com/in/username">
+                                    </div>
+                                    @error('linkedin')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="instagram" class="form-label">Instagram Profile</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-instagram"></i></span>
+                                        <input type="url" class="form-control @error('instagram') is-invalid @enderror"
+                                               id="instagram" name="instagram" value="{{ old('instagram') }}" placeholder="https://instagram.com/username">
+                                    </div>
+                                    @error('instagram')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label for="position" class="block text-sm font-medium text-gray-700">Position <span class="text-red-500">*</span></label>
-                        <input type="text" id="position" name="position" value="{{ old('position') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('position') border-red-500 @enderror">
-                        @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror">
-                        @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                     <div>
-                        <label for="experience_years" class="block text-sm font-medium text-gray-700">Years of Experience</label>
-                        <input type="number" id="experience_years" name="experience_years" value="{{ old('experience_years') }}" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('experience_years') border-red-500 @enderror">
-                        @error('experience_years') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">Profile Photo</h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <img id="photoPreview"
+                                         src="{{ asset('assets/images/placeholder-user.jpg') }}"
+                                         alt="Photo Preview"
+                                         class="img-fluid rounded-circle mb-3"
+                                         style="width: 200px; height: 200px; object-fit: cover;">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="file"
+                                           class="form-control @error('photo') is-invalid @enderror"
+                                           id="photo"
+                                           name="photo"
+                                           accept="image/*"
+                                           onchange="previewImage(this, 'photoPreview')">
+                                    @error('photo')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">Recommended size: 400x400px</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">Settings</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="display_order" class="form-label">Display Order</label>
+                                    <input type="number" class="form-control @error('display_order') is-invalid @enderror"
+                                           id="display_order" name="display_order" value="{{ old('display_order', 0) }}" min="0">
+                                    @error('display_order')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="is_active"
+                                               name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">Active</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="show_on_team_page"
+                                               name="show_on_team_page" value="1" {{ old('show_on_team_page', true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="show_on_team_page">Show on Team Page</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="show_on_about_page"
+                                               name="show_on_about_page" value="1" {{ old('show_on_about_page', false) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="show_on_about_page">Show on About Page</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label for="bio" class="block text-sm font-medium text-gray-700">Biography</label>
-                    <textarea id="bio" name="bio" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('bio') border-red-500 @enderror">{{ old('bio') }}</textarea>
-                    @error('bio') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="reset" class="btn btn-outline-secondary me-md-2">
+                        <i class="fas fa-undo me-1"></i> Reset
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Create Team Member
+                    </button>
                 </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Social Media</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="facebook" class="block text-sm font-medium text-gray-700">Facebook URL</label>
-                        <input type="url" id="facebook" name="facebook" value="{{ old('facebook') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('facebook') border-red-500 @enderror">
-                        @error('facebook') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label for="twitter" class="block text-sm font-medium text-gray-700">Twitter URL</label>
-                        <input type="url" id="twitter" name="twitter" value="{{ old('twitter') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('twitter') border-red-500 @enderror">
-                        @error('twitter') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label for="linkedin" class="block text-sm font-medium text-gray-700">LinkedIn URL</label>
-                        <input type="url" id="linkedin" name="linkedin" value="{{ old('linkedin') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('linkedin') border-red-500 @enderror">
-                        @error('linkedin') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Profile Photo</h3>
-                <div class="text-center">
-                    <img id="photo-preview" src="{{ asset('assets/img/placeholder-user.jpg') }}" alt="Photo preview" class="w-48 h-48 object-cover rounded-full mx-auto mb-4">
-                    <input type="file" id="photo" name="photo" accept="image/*" class="hidden @error('photo') border-red-500 @enderror" onchange="previewImage(event, 'photo-preview')">
-                    <label for="photo" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-upload mr-2"></i> Choose Photo
-                    </label>
-                    <p class="text-xs text-gray-500 mt-2">Recommended: 400x400px.</p>
-                    @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Settings</h3>
-
-                 <div class="flex items-center justify-between mb-4">
-                    <label for="sort_order" class="text-sm font-medium text-gray-700">Sort Order</label>
-                    <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', 0) }}" min="0" class="w-20 text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <label for="is_active" class="text-sm font-medium text-gray-700">Active</label>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="is_active" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mb-2">
-                    <i class="fas fa-save mr-2"></i> Save Member
-                </button>
-                <button type="reset" class="w-full bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300">
-                    <i class="fas fa-undo mr-2"></i> Reset Form
-                </button>
-            </div>
+            </form>
         </div>
     </div>
-</form>
-
-<style>
-.toggle-checkbox:checked {
-  right: 0;
-  border-color: #4A90E2;
-}
-.toggle-checkbox:checked + .toggle-label {
-  background-color: #4A90E2;
-}
-</style>
+</div>
 
 @push('scripts')
 <script>
-    function previewImage(event, previewId) {
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        const file = input.files[0];
         const reader = new FileReader();
-        reader.onload = function(){
-            const output = document.getElementById(previewId);
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "{{ asset('assets/images/placeholder-user.jpg') }}";
+        }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize any plugins or custom scripts
+    });
 </script>
 @endpush
 @endsection

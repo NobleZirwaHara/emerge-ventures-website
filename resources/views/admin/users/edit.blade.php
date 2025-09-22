@@ -1,133 +1,379 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit User')
-
-@section('header')
-<div class="flex justify-between items-center mb-6">
-    <div>
-        <h2 class="text-3xl font-bold text-gray-800">Edit User</h2>
-        <p class="text-gray-600">Update details for "{{ $user->name }}"</p>
-    </div>
-    <a href="{{ route('admin.users.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-        <i class="fas fa-arrow-left mr-2"></i>
-        Back to Users
-    </a>
-</div>
-@endsection
-
 @section('content')
-<form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="p-6">
-    @csrf
-    @method('PUT')
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Account Information</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror">
-                        @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
-                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror">
-                        @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                    <p class="text-sm text-blue-700">Leave password fields blank to keep the current password.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
-                        <input type="password" id="password" name="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('password') border-red-500 @enderror">
-                        @error('password') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Profile Photo</h3>
-                <div class="text-center">
-                    <img id="photo-preview" src="{{ $user->profile_photo_path ? asset($user->profile_photo_path) : asset('assets/img/placeholder-user.jpg') }}" alt="Photo preview" class="w-48 h-48 object-cover rounded-full mx-auto mb-4">
-                    <input type="file" id="profile_photo_path" name="profile_photo_path" accept="image/*" class="hidden @error('profile_photo_path') border-red-500 @enderror" onchange="previewImage(event, 'photo-preview')">
-                    <label for="profile_photo_path" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-upload mr-2"></i> Change Photo
-                    </label>
-                    <p class="text-xs text-gray-500 mt-2">Recommended: 400x400px.</p>
-                    @error('profile_photo_path') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Settings</h3>
-
-                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Roles</label>
-                    <div class="space-y-2">
-                        @foreach(['user', 'manager', 'admin'] as $role)
-                        <div class="flex items-center">
-                            <input id="role_{{ $role }}" name="roles[]" type="checkbox" value="{{ $role }}"
-                                @if(in_array($role, old('roles', $user->getRoleNames()->toArray()))) checked @endif
-                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                            <label for="role_{{ $role }}" class="ml-3 block text-sm font-medium text-gray-700">{{ ucfirst($role) }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                     @error('roles') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <label for="is_active" class="text-sm font-medium text-gray-700">Active</label>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $user->is_active) ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="is_active" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mb-2">
-                    <i class="fas fa-save mr-2"></i> Update User
-                </button>
-                <a href="{{ route('admin.users.index') }}" class="w-full text-center block bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300">
-                    Cancel
-                </a>
-            </div>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Edit User: {{ $user->name }}</h1>
+        <div>
+            <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-eye me-1"></i> View
+            </a>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to Users
+            </a>
         </div>
     </div>
-</form>
 
-<style>
-.toggle-checkbox:checked {
-  right: 0;
-  border-color: #4A90E2;
-}
-.toggle-checkbox:checked + .toggle-label {
-  background-color: #4A90E2;
-}
-</style>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">User Information</h6>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('first_name') is-invalid @enderror"
+                                           id="first_name" name="first_name"
+                                           value="{{ old('first_name', $user->first_name) }}" required>
+                                    @error('first_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('last_name') is-invalid @enderror"
+                                           id="last_name" name="last_name"
+                                           value="{{ old('last_name', $user->last_name) }}" required>
+                                    @error('last_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                   id="email" name="email"
+                                   value="{{ old('email', $user->email) }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Leave password fields blank to keep current password.
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">New Password</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                           id="password" name="password">
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">Leave blank to keep current password</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control"
+                                           id="password_confirmation" name="password_confirmation">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control @error('phone') is-invalid @enderror"
+                                   id="phone" name="phone"
+                                   value="{{ old('phone', $user->phone) }}">
+                            @error('phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bio" class="form-label">Biography</label>
+                            <textarea class="form-control @error('bio') is-invalid @enderror"
+                                      id="bio" name="bio" rows="3">{{ old('bio', $user->bio) }}</textarea>
+                            @error('bio')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control @error('address') is-invalid @enderror"
+                                      id="address" name="address" rows="2">{{ old('address', $user->address) }}</textarea>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" class="form-control @error('city') is-invalid @enderror"
+                                           id="city" name="city"
+                                           value="{{ old('city', $user->city) }}">
+                                    @error('city')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="postal_code" class="form-label">Postal Code</label>
+                                    <input type="text" class="form-control @error('postal_code') is-invalid @enderror"
+                                           id="postal_code" name="postal_code"
+                                           value="{{ old('postal_code', $user->postal_code) }}">
+                                    @error('postal_code')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <select class="form-select @error('country') is-invalid @enderror"
+                                    id="country" name="country">
+                                <option value="">Select Country</option>
+                                @foreach($countries as $code => $name)
+                                    <option value="{{ $code }}" {{ old('country', $user->country) == $code ? 'selected' : '' }}>
+                                        {{ $name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('country')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Profile Photo</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <img id="profile-photo-preview"
+                                         src="{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : asset('images/default-avatar.png') }}"
+                                         alt="Profile Photo"
+                                         class="img-thumbnail mb-2"
+                                         style="width: 200px; height: 200px; object-fit: cover;">
+                                    <input type="file" class="form-control @error('profile_photo') is-invalid @enderror"
+                                           id="profile_photo" name="profile_photo"
+                                           accept="image/*"
+                                           onchange="previewImage(this, 'profile-photo-preview')">
+                                    @error('profile_photo')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">Max 2MB. JPG, PNG, GIF.</div>
+                                    @if($user->profile_photo_path)
+                                        <div class="mt-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="remove_photo" name="remove_photo" value="1">
+                                                <label class="form-check-label" for="remove_photo">
+                                                    Remove current photo
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">User Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">User Role <span class="text-danger">*</span></label>
+                                    <div class="border rounded p-2">
+                                        @foreach($roles as $role)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                       name="roles[]"
+                                                       value="{{ $role->id }}"
+                                                       id="role_{{ $role->id }}"
+                                                       {{ in_array($role->id, old('roles', $user->roles->pluck('id')->toArray())) ? 'checked' : '' }}
+                                                       {{ $role->name === 'super-admin' && !auth()->user()->hasRole('super-admin') ? 'disabled' : '' }}>
+                                                <label class="form-check-label" for="role_{{ $role->id }}">
+                                                    {{ ucfirst($role->name) }}
+                                                    @if($role->name === 'super-admin')
+                                                        <span class="badge bg-danger">Restricted</span>
+                                                    @endif
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @error('roles')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="is_active" name="is_active" value="1"
+                                               {{ old('is_active', $user->is_active) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">Active Account</label>
+                                    </div>
+                                    <div class="form-text">Deactivating will prevent user login.</div>
+                                </div>
+
+                                @if(!$user->hasVerifiedEmail())
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="email_verified" name="email_verified" value="1"
+                                                   {{ old('email_verified') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="email_verified">Mark Email as Verified</label>
+                                        </div>
+                                        <div class="form-text">Bypass email verification.</div>
+                                    </div>
+                                @endif
+
+                                @if($user->id !== auth()->id())
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="force_password_reset" name="force_password_reset" value="1"
+                                                   {{ old('force_password_reset') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="force_password_reset">Require Password Reset</label>
+                                        </div>
+                                        <div class="form-text">User must change password on next login.</div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="reset" class="btn btn-secondary">
+                        <i class="fas fa-undo me-1"></i> Reset Changes
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Update User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if($user->id !== auth()->id())
+        <div class="card shadow mb-4 border-danger">
+            <div class="card-header bg-danger text-white">
+                <h6 class="m-0 font-weight-bold">Danger Zone</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-danger mb-1">Delete This User</h6>
+                        <p class="mb-0">Once deleted, this action cannot be undone. All user data will be permanently removed.</p>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+                        <i class="fas fa-trash-alt me-1"></i> Delete User
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
+
+<!-- Delete User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm User Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to permanently delete <strong>{{ $user->name }}</strong>?</p>
+                    <p class="text-danger">This action cannot be undone. All user data will be permanently removed.</p>
+
+                    <div class="mb-3">
+                        <label for="delete_option" class="form-label">Delete Option:</label>
+                        <select class="form-select" id="delete_option" name="delete_option" required>
+                            <option value="all">Delete user and all associated data</option>
+                            <option value="reassign">Reassign content to another user</option>
+                        </select>
+                    </div>
+
+                    <div id="reassignUserContainer" class="mb-3 d-none">
+                        <label for="reassign_user_id" class="form-label">Reassign to User:</label>
+                        <select class="form-select" id="reassign_user_id" name="reassign_user_id">
+                            @foreach($allUsers as $u)
+                                @if($u->id !== $user->id)
+                                    <option value="{{ $u->id }}">{{ $u->name }} ({{ $u->email }})</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-1"></i> Delete User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @push('scripts')
 <script>
-    function previewImage(event, previewId) {
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        const file = input.files[0];
         const reader = new FileReader();
-        reader.onload = function(){
-            const output = document.getElementById(previewId);
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : asset('images/default-avatar.png') }}";
+        }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show/hide reassign user dropdown based on delete option
+        const deleteOption = document.getElementById('delete_option');
+        const reassignContainer = document.getElementById('reassignUserContainer');
+
+        if (deleteOption && reassignContainer) {
+            deleteOption.addEventListener('change', function() {
+                if (this.value === 'reassign') {
+                    reassignContainer.classList.remove('d-none');
+                    reassignContainer.querySelector('select').setAttribute('required', 'required');
+                } else {
+                    reassignContainer.classList.add('d-none');
+                    reassignContainer.querySelector('select').removeAttribute('required');
+                }
+            });
+
+            // Trigger change event to set initial state
+            deleteOption.dispatchEvent(new Event('change'));
+        }
+    });
 </script>
 @endpush
 @endsection
