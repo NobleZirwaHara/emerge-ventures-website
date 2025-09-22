@@ -360,7 +360,7 @@
         @endif
       </div>
       <div class="text-center mt-5">
-        <a href="/digital-skills.html#programs" class="btn btn-primary btn-lg rounded-pill px-5"
+        <a href="{{ route('digital-skills.index') }}" class="btn btn-primary btn-lg rounded-pill px-5"
           style="background-color:#4C808A; border-color:#4C808A;">
           View More Courses
         </a>
@@ -368,123 +368,6 @@
     </div>
   </section>
 
-  <!-- Program Details Modal -->
-  <div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="programDetailsModalLabel">Program Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="program-details">
-            <div class="container">
-              <div class="row">
-                <div class="col-12">
-                  <div class="detail-item">
-                    <h3>Program Details</h3>
-                    <p>Our Digital Skills Training programs are designed to be accessible to everyone, regardless of
-                      their current skill level. Whether you're a complete beginner or looking to enhance your existing
-                      skills, we have a program that's right for you.</p>
-                    <p>Each program combines theoretical knowledge with practical, hands-on experience to ensure you
-                      gain the skills needed to succeed in today's digital economy. Our flexible scheduling options make
-                      it easy to balance your education with other commitments.</p>
-                  </div>
-
-                  <div class="detail-item">
-                    <h3>Who Should Attend?</h3>
-                    <ul>
-                      <li>Recent graduates looking to enhance their employability</li>
-                      <li>Professionals seeking to upskill or change careers</li>
-                      <li>Entrepreneurs wanting to leverage digital tools for business growth</li>
-                      <li>Anyone interested in acquiring valuable digital skills</li>
-                    </ul>
-                  </div>
-
-                  <div class="detail-item">
-                    <h3>Certification</h3>
-                    <p>Upon successful completion of any of our programs, participants will receive a certificate of
-                      completion, validating their newly acquired skills and knowledge.</p>
-                  </div>
-
-                  <div class="text-center mt-4">
-                    <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">Apply
-                      Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Apply Modal -->
-  <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="applyModalLabel">Apply for Digital Skills Training</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="trainingApplicationForm">
-            <div class="mb-3">
-              <label for="fullName" class="form-label">Full Name</label>
-              <input type="text" class="form-control" id="fullName" name="fullName" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email Address</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="phone" class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="phone" name="phone" required>
-            </div>
-            <div class="mb-3">
-              <label for="program" class="form-label">Program of Interest</label>
-              <select class="form-select" id="program" name="program" required>
-                <option value="" selected disabled>Select a program</option>
-                <option value="basic">Basic Digital Literacy</option>
-                <option value="web">Web Development</option>
-                <option value="marketing">Digital Marketing</option>
-                <option value="graphic">Graphic Design</option>
-                <option value="python">Python Programming</option>
-                <option value="data">Data Analysis</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">Why are you interested in this program?</label>
-              <textarea class="form-control" id="message" name="message" rows="3"></textarea>
-            </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Submit Application</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Program Details Modal -->
-  <div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="programDetailsModalLabel">Program Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Content will be dynamically loaded -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
-            </div>
-        </div>
-    </div>
-  </div>
 
   <!-- Apply Modal -->
   <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
@@ -530,6 +413,24 @@
               </div>
           </div>
       </div>
+  </div>
+  <!-- Program Details Modal -->
+  <div class="modal fade" id="programDetailsModal" tabindex="-1" aria-labelledby="programDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="programDetailsModalLabel">Program Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be dynamically loaded -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
+            </div>
+        </div>
+    </div>
   </div>
   <!-- Service Section -->
   <section class="ms-service-section padding-tb-30">
