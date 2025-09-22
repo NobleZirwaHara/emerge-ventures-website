@@ -1,132 +1,92 @@
 @extends('layouts.admin')
 
-@section('content')
-<div class="container-fluid px-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0">Service Details</h1>
-        <div>
-            <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-outline-primary me-2">
-                <i class="fas fa-edit me-1"></i> Edit
-            </a>
-            <a href="{{ route('admin.services.index') }}" class="btn btn-outline-secondary">
-                <i class="fas fa-arrow-left me-1"></i> Back to List
-            </a>
-        </div>
+@section('title', 'View Service')
+
+@section('header')
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-3xl font-bold text-gray-800">View Service</h2>
+        <p class="text-gray-600">Details for "{{ $service->name }}"</p>
     </div>
+    <div class="flex space-x-2">
+        <a href="{{ route('admin.services.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Services
+        </a>
+        <a href="{{ route('admin.services.edit', $service->id) }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+            <i class="fas fa-edit mr-2"></i>
+            Edit Service
+        </a>
+    </div>
+</div>
+@endsection
 
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Service Information</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th width="30%">ID</th>
-                            <td>{{ $service->id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Name</th>
-                            <td>{{ $service->name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Slug</th>
-                            <td>{{ $service->slug }}</td>
-                        </tr>
-                        <tr>
-                            <th>Category</th>
-                            <td>{{ $service->category->name ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Price</th>
-                            <td>${{ number_format($service->price, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td>
-                                <span class="badge {{ $service->is_active ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $service->is_active ? 'Active' : 'Inactive' }}
-                                </span>
-                                @if($service->is_featured)
-                                    <span class="badge bg-warning text-dark ms-2">Featured</span>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Created At</th>
-                            <td>{{ $service->created_at->format('M d, Y h:i A') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Updated At</th>
-                            <td>{{ $service->updated_at->format('M d, Y h:i A') }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card shadow mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Description</h5>
-                </div>
-                <div class="card-body">
-                    {!! $service->description ? nl2br(e($service->description)) : '<p class="text-muted">No description provided.</p>' !!}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="card shadow mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Featured Image</h5>
-                </div>
-                <div class="card-body text-center">
-                    @if($service->image)
-                        <img src="{{ asset('storage/' . $service->image) }}"
-                             alt="{{ $service->name }}"
-                             class="img-fluid rounded mb-3"
-                             style="max-height: 250px;">
-                    @else
-                        <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                             style="height: 200px;">
-                            <span class="text-muted">No image available</span>
-                        </div>
+@section('content')
+<div class="p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Content -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-start">
+                     @if($service->icon)
+                        <span class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-6">
+                            <i class="{{ $service->icon }} text-blue-600 text-2xl"></i>
+                        </span>
                     @endif
-                </div>
-            </div>
-
-            <div class="card shadow">
-                <div class="card-header">
-                    <h5 class="mb-0">Actions</h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a href="{{ route('admin.services.edit', $service->id) }}"
-                           class="btn btn-outline-primary mb-2">
-                            <i class="fas fa-edit me-1"></i> Edit Service
-                        </a>
-
-                        <form action="{{ route('admin.services.destroy', $service->id) }}"
-                              method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this service? This action cannot be undone.')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger w-100">
-                                <i class="fas fa-trash me-1"></i> Delete Service
-                            </button>
-                        </form>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $service->name }}</h3>
+                        <div class="prose max-w-none text-gray-600">
+                            {!! $service->description !!}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4 border-b pb-3">Service Details</h3>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="font-medium text-gray-700">Price:</span>
+                        <span class="text-gray-900">{{ $service->price ? 'MWK ' . number_format($service->price, 0) : 'Variable' }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-gray-700">Status:</span>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $service->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            {{ $service->is_active ? 'Active' : 'Inactive' }}
+                        </span>
+                    </div>
+                     <div class="flex justify-between">
+                        <span class="font-medium text-gray-700">Created At:</span>
+                        <span class="text-gray-900">{{ $service->created_at->format('M d, Y') }}</span>
+                    </div>
+                     <div class="flex justify-between">
+                        <span class="font-medium text-gray-700">Last Updated:</span>
+                        <span class="text-gray-900">{{ $service->updated_at->format('M d, Y') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            @if($service->image)
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                 <h3 class="text-xl font-semibold mb-4 border-b pb-3">Service Image</h3>
+                <img src="{{ asset($service->image) }}" alt="{{ $service->name }}" class="w-full h-auto object-cover rounded-lg">
+            </div>
+            @endif
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this service? This action cannot be undone.')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                        <i class="fas fa-trash mr-2"></i> Delete Service
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize any plugins or custom scripts
-    });
-</script>
-@endpush
 @endsection
