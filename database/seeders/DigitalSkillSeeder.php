@@ -155,7 +155,7 @@ class DigitalSkillSeeder extends Seeder
                     'Print and digital design'
                 ],
                 'is_active' => true,
-                'featured' => true,
+                'featured' => false,
                 'max_participants' => 12,
                 'start_date' => now()->addDays(14),
                 'end_date' => now()->addDays(85)
@@ -184,7 +184,7 @@ class DigitalSkillSeeder extends Seeder
                     'Career guidance'
                 ],
                 'is_active' => true,
-                'featured' => true,
+                'featured' => false,
                 'max_participants' => 10,
                 'start_date' => now()->addDays(7),
                 'end_date' => now()->addDays(120)

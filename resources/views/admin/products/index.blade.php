@@ -1,17 +1,20 @@
 @extends('layouts.admin')
 
 @section('title', 'Products Management')
+@section('header')
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-3xl font-bold text-gray-800">Products Management</h2>
+        <p class="text-gray-600">Manage your shop products</p>
+    </div>
+    <a href="{{ route('admin.products.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+        <i class="fas fa-plus mr-2"></i>
+        Add New Product
+    </a>
+</div>
+@endsection
 
 @section('content')
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-800">Products Management</h2>
-                    <p class="text-gray-600">Manage your shop products</p>
-                </div>
-                <a href="{{ route('admin.products.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                    Add New Product
-                </a>
-            </div>
 
             @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">

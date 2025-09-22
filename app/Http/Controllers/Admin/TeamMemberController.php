@@ -11,12 +11,12 @@ class TeamMemberController extends Controller
     public function index()
     {
         $teamMembers = TeamMember::orderBy('sort_order')->paginate(15);
-        return view('admin.team-members.index', compact('teamMembers'));
+        return view('admin.team.index', compact('teamMembers'));
     }
 
     public function create()
     {
-        return view('admin.team-members.create');
+        return view('admin.team.create');
     }
 
     public function store(Request $request)
@@ -44,18 +44,18 @@ class TeamMemberController extends Controller
 
         TeamMember::create($validated);
 
-        return redirect()->route('admin.team-members.index')
+        return redirect()->route('admin.team.index')
             ->with('success', 'Team member created successfully.');
     }
 
     public function show(TeamMember $teamMember)
     {
-        return view('admin.team-members.show', compact('teamMember'));
+        return view('admin.team.show', compact('teamMember'));
     }
 
     public function edit(TeamMember $teamMember)
     {
-        return view('admin.team-members.edit', compact('teamMember'));
+        return view('admin.team.edit', compact('teamMember'));
     }
 
     public function update(Request $request, TeamMember $teamMember)
@@ -83,14 +83,14 @@ class TeamMemberController extends Controller
 
         $teamMember->update($validated);
 
-        return redirect()->route('admin.team-members.index')
+        return redirect()->route('admin.team.index')
             ->with('success', 'Team member updated successfully.');
     }
 
     public function destroy(TeamMember $teamMember)
     {
         $teamMember->delete();
-        return redirect()->route('admin.team-members.index')
+        return redirect()->route('admin.team.index')
             ->with('success', 'Team member deleted successfully.');
     }
 }
