@@ -16,8 +16,6 @@ class Service extends Model
         'short_description',
         'icon',
         'image',
-        'price',
-        'pricing_type',
         'features',
         'is_active',
         'featured',
@@ -25,7 +23,6 @@ class Service extends Model
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
         'features' => 'array',
         'is_active' => 'boolean',
         'featured' => 'boolean',

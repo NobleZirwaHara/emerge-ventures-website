@@ -8,125 +8,280 @@
         <h2 class="text-3xl font-bold text-gray-800">Edit Service</h2>
         <p class="text-gray-600">Update details for "{{ $service->name }}"</p>
     </div>
-    <a href="{{ route('admin.services.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center">
-        <i class="fas fa-arrow-left mr-2"></i>
+    <a href="{{ route('admin.services.index') }}" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
         Back to Services
     </a>
 </div>
 @endsection
 
 @section('content')
-<form action="{{ route('admin.services.update', $service->id) }}" method="POST" enctype="multipart/form-data" class="p-6">
-    @csrf
-    @method('PUT')
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Service Information</h3>
-                
-                <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Service Name <span class="text-red-500">*</span></label>
-                    <input type="text" id="name" name="name" value="{{ old('name', $service->name) }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('name') border-red-500 @enderror">
-                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea id="description" name="description" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('description') border-red-500 @enderror">{{ old('description', $service->description) }}</textarea>
-                    @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700">Price (MWK)</label>
-                        <input type="number" step="1" id="price" name="price" value="{{ old('price', $service->price) }}" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('price') border-red-500 @enderror">
-                        <p class="text-xs text-gray-500 mt-1">Leave empty for variable pricing.</p>
-                        @error('price') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
-                        <select id="category_id" name="category_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('category_id') border-red-500 @enderror">
-                            <option value="">Select Category</option>
-                        </select>
-                        @error('category_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                     <div>
-                        <label for="icon" class="block text-sm font-medium text-gray-700">FontAwesome Icon Class</label>
-                        <input type="text" id="icon" name="icon" value="{{ old('icon', $service->icon) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('icon') border-red-500 @enderror">
-                        <p class="text-xs text-gray-500 mt-1">e.g., 'fas fa-cogs'.</p>
-                        @error('icon') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-            </div>
+<div class="p-6">
+    @if($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
+    @endif
 
-        <!-- Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Service Image</h3>
-                <div class="text-center">
-                    <img id="image-preview" src="{{ $service->image ? asset($service->image) : asset('assets/img/placeholder.jpg') }}" alt="Image preview" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <input type="file" id="image" name="image" accept="image/*" class="hidden @error('image') border-red-500 @enderror" onchange="previewImage(event)">
-                    <label for="image" class="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-upload mr-2"></i> Change Image
-                    </label>
-                    <p class="text-xs text-gray-500 mt-2">Optional. Max file size: 2MB.</p>
-                    @error('image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+    <div class="bg-white rounded-lg shadow p-6">
+        <form action="{{ route('admin.services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Service Name <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" id="name" value="{{ old('name', $service->name) }}" required 
+                           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">Slug</label>
+                    <input type="text" name="slug" id="slug" value="{{ old('slug', $service->slug) }}" 
+                           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="auto-generated-if-blank">
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="short_description" class="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+                    <input type="text" name="short_description" id="short_description" value="{{ old('short_description', $service->short_description) }}" 
+                           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-xs text-gray-500 mt-1">A brief summary of the service (max 255 characters).</p>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea name="description" id="description" rows="4" 
+                              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('description', $service->description) }}</textarea>
+                </div>
+
+                <div>
+                    <label for="icon" class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                    <div class="flex">
+                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-500">
+                            <i id="icon-preview" class="{{ old('icon', $service->icon ?: 'msi msi-shopping-cart') }}"></i>
+                        </span>
+                        <input type="text" name="icon" id="icon" value="{{ old('icon', $service->icon) }}" 
+                               class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="msi msi-icon-name">
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Use Material Design Icons (e.g., msi-shopping-cart)</p>
+                </div>
+
+                <div>
+                    <label for="delivery_time_days" class="block text-sm font-medium text-gray-700 mb-2">Delivery Time (Days)</label>
+                    <input type="number" name="delivery_time_days" id="delivery_time_days" value="{{ old('delivery_time_days', $service->delivery_time_days) }}" 
+                           min="0" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-xs text-gray-500 mt-1">Leave empty if not applicable</p>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Features</label>
+                    <div id="features-container">
+                        @php
+                            $features = old('features', $service->features ?: ['']);
+                            if (empty($features)) {
+                                $features = [''];
+                            }
+                        @endphp
+                        @foreach($features as $index => $feature)
+                            <div class="flex mb-2">
+                                <input type="text" name="features[]" value="{{ $feature }}" 
+                                       class="flex-1 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <button type="button" class="px-3 py-2 bg-red-500 text-white rounded-r-md hover:bg-red-600 remove-feature">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" id="add-feature" class="mt-2 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-plus mr-1"></i> Add Feature
+                    </button>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Service Image</label>
+                    <div class="mt-1 flex items-center">
+                        <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                            <img id="image-preview" src="{{ $service->image ? asset('storage/' . $service->image) : asset('assets/img/placeholder.jpg') }}" alt="Preview" class="h-full w-full object-cover">
+                        </span>
+                        <label for="image-upload" class="ml-5">
+                            <span class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Change
+                            </span>
+                            <input id="image-upload" name="image" type="file" class="sr-only" onchange="previewImage(this)">
+                        </label>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Recommended size: 800x600px, Max size: 2MB</p>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4">Settings</h3>
-
-                <div class="flex items-center justify-between">
-                    <label for="is_active" class="text-sm font-medium text-gray-700">Active</label>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $service->is_active) ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="is_active" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+            <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <input type="hidden" name="is_active" value="0">
+                        <input id="is_active" name="is_active" type="checkbox" value="1" {{ old('is_active', $service->is_active) ? 'checked' : '' }} 
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="is_active" class="ml-2 block text-sm text-gray-700">
+                            Active
+                        </label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="hidden" name="featured" value="0">
+                        <input id="featured" name="featured" type="checkbox" value="1" {{ old('featured', $service->featured) ? 'checked' : '' }} 
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="featured" class="ml-2 block text-sm text-gray-700">
+                            Featured
+                        </label>
                     </div>
                 </div>
-                <div class="flex items-center justify-between mt-4">
-                    <label for="featured" class="text-sm font-medium text-gray-700">Featured</label>
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="featured" id="featured" value="1" {{ old('featured', $service->featured) ? 'checked' : '' }} class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="featured" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-                    </div>
+                <div class="flex space-x-3">
+                    <a href="{{ route('admin.services.index') }}" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Cancel
+                    </a>
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Update Service
+                    </button>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mb-2">
-                    <i class="fas fa-save mr-2"></i> Update Service
-                </button>
-                <a href="{{ route('admin.services.index') }}" class="w-full text-center block bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300">
-                    Cancel
-                </a>
-            </div>
-        </div>
+        </form>
     </div>
-</form>
+</div>
+
+@push('scripts')
+<script>
+    // Auto-generate slug from name
+    document.getElementById('name').addEventListener('input', function() {
+        const slugInput = document.getElementById('slug');
+        if (!slugInput.value) {
+            const slug = this.value
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '') // remove non-word chars
+                .replace(/\s+/g, '-')      // replace spaces with -
+                .replace(/--+/g, '-');      // replace multiple - with single -
+            slugInput.value = slug;
+        }
+    });
+
+    // Update icon preview
+    document.getElementById('icon').addEventListener('input', function() {
+        document.getElementById('icon-preview').className = this.value;
+    });
+
+    // Image preview
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('image-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Add feature field
+    document.getElementById('add-feature').addEventListener('click', function() {
+        const container = document.getElementById('features-container');
+        const div = document.createElement('div');
+        div.className = 'flex mb-2';
+        div.innerHTML = `
+            <input type="text" name="features[]" 
+                   class="flex-1 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="button" class="px-3 py-2 bg-red-500 text-white rounded-r-md hover:bg-red-600 remove-feature">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        container.appendChild(div);
+    });
+
+    // Remove feature field
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-feature') || e.target.closest('.remove-feature')) {
+            const button = e.target.classList.contains('remove-feature') ? e.target : e.target.closest('.remove-feature');
+            if (document.querySelectorAll('#features-container > div').length > 1) {
+                button.closest('.flex').remove();
+            } else {
+                button.previousElementSibling.value = '';
+            }
+        }
+    });
+</script>
+@endpush
 
 <style>
 .toggle-checkbox:checked {
   right: 0;
-  border-color: #4A90E2;
+  border-color: #4C808A;
 }
 .toggle-checkbox:checked + .toggle-label {
-  background-color: #4A90E2;
+  background-color: #4C808A;
 }
 </style>
 
 @push('scripts')
 <script>
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function(){
-            const output = document.getElementById('image-preview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
+function previewImage(event) {
+  const reader = new FileReader();
+  reader.onload = function(){
+    const output = document.getElementById('image-preview');
+    output.src = reader.result;
+  };
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+// Update icon preview
+document.getElementById('icon').addEventListener('input', function() {
+    const iconPreview = document.getElementById('icon-preview');
+    const iconColor = document.getElementById('icon_color').value;
+    iconPreview.className = this.value + ' ' + iconColor;
+});
+
+// Handle icon color selection
+document.querySelectorAll('.icon-color-selector').forEach(selector => {
+    selector.addEventListener('click', function() {
+        const color = this.getAttribute('data-color');
+        document.getElementById('icon_color').value = color;
+        document.querySelectorAll('.icon-color-selector').forEach(el => {
+            el.classList.remove('ring-2', 'ring-offset-2', 'ring-blue-500');
+        });
+        this.classList.add('ring-2', 'ring-offset-2', 'ring-blue-500');
+        
+        // Update icon preview with new color
+        const icon = document.getElementById('icon').value;
+        document.getElementById('icon-preview').className = icon + ' ' + color;
+    });
+});
+
+// Add/remove feature fields
+document.getElementById('add-feature').addEventListener('click', function() {
+    const container = document.getElementById('features-container');
+    const featureCount = container.getElementsByTagName('input').length;
+    
+    if (featureCount >= 10) {
+        alert('Maximum 10 features allowed');
+        return;
     }
+    
+    const div = document.createElement('div');
+    div.className = 'flex mb-2';
+    div.innerHTML = `
+        <input type="text" name="features[]" class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Feature description">
+        <button type="button" class="ml-2 px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 remove-feature">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    container.appendChild(div);
+});
+
+// Remove feature field
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('remove-feature')) {
+        e.target.closest('.flex').remove();
+    }
+});
 </script>
 @endpush
 @endsection

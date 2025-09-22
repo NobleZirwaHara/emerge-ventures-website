@@ -271,107 +271,40 @@
         </div>
       </div>
       <div class="row">
-      <!-- E-commerce Platform -->
-      <div class="col-lg-6 col-md-6">
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="msicon msi-shopping-cart"></i>
-          </div>
-          <h3>E-commerce Platform</h3>
-          <p>Access to our digital marketplace for entrepreneurs to showcase and sell their products to a wider
-            audience across Malawi and beyond.</p>
-          <ul class="service-features">
-            <li>Digital Storefront Creation</li>
-            <li>Payment Processing Solutions</li>
-            <li>Logistics & Delivery Support</li>
-            <li>Marketing & Promotion Tools</li>
-            <li>Analytics & Performance Tracking</li>
-          </ul>
-          <a href="shop.html" class="service-btn">Start Selling</a>
-        </div>
-      </div>
-              <!-- Digital Skills Training -->
-        <div class="col-lg-6 col-md-6">
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="msicon msi-laptop"></i>
+        @foreach($services->chunk(2) as $serviceChunk)
+          @foreach($serviceChunk as $service)
+            <div class="col-lg-6 col-md-6 mb-4">
+              <div class="service-card">
+                <div class="service-icon">
+                  <i class="msicon {{ $service->icon }}"></i>
+                </div>
+                <h3>{{ $service->name }}</h3>
+                <p>{{ $service->short_description }}</p>
+                @if(!empty($service->features) && is_array($service->features))
+                  <ul class="service-features">
+                    @foreach(array_slice($service->features, 0, 5) as $feature)
+                      <li>{{ $feature }}</li>
+                    @endforeach
+                  </ul>
+                @endif
+                <a href="{{ route('services.show', $service->slug) }}" class="service-btn">
+                  @if(str_contains(strtolower($service->name), 'shop'))
+                    Shop Now
+                  @elseif(str_contains(strtolower($service->name), 'training') || str_contains(strtolower($service->name), 'skill'))
+                    Enroll Now
+                  @elseif(str_contains(strtolower($service->name), 'space') || str_contains(strtolower($service->name), 'workspace'))
+                    Book Space
+                  @else
+                    Learn More
+                  @endif
+                </a>
+              </div>
             </div>
-            <h3>Digital Skills Training</h3>
-            <p>Comprehensive digital literacy and advanced technology training programs designed to bridge the digital
-              divide and support Malawians in amplifying their potential for the modern economy.</p>
-            <ul class="service-features">
-              <li>Computer Literacy & Basic Skills</li>
-              <li>Programming & Web Development</li>
-              <li>Digital Marketing & Social Media</li>
-              <li>Graphic Design & Multimedia</li>
-              <li>Data Analysis & Business Intelligence</li>
-            </ul>
-            <a href="digital-skills.html" class="service-btn">Enroll Now</a>
-          </div>
-        </div>
-      <div class="row">
-        <!-- Co-Working Space -->
-        <div class="col-lg-6 col-md-6">
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="msicon msi-building"></i>
-            </div>
-            <h3>Creative Co-Workspace</h3>
-            <p>A vibrant collaborative workspace designed for entrepreneurs, freelancers, and creative professionals to
-              thrive in a supportive community environment that fosters innovation and collaboration.</p>
-            <ul class="service-features">
-              <li>High-Speed Internet Access</li>
-              <li>Meeting Rooms & Conference Facilities</li>
-              <li>Printing & Office Services</li>
-              <li>24/7 Security & Access</li>
-              <li>Networking Events & Workshops</li>
-            </ul>
-            <a href="co-workspace.html" class="service-btn">Book Space</a>
-          </div>
-        </div>
-        <!-- Innovation Hub -->
-        <!-- <div class="col-lg-6 col-md-6">
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="msicon msi-lightbulb-o"></i>
-            </div>
-            <h3>Innovation Hub</h3>
-            <p>A collaborative space for innovation, research, and development of new products and services that address
-              local and global challenges.</p>
-            <ul class="service-features">
-              <li>Innovation Workshops</li>
-              <li>Prototype Development</li>
-              <li>Research & Development Support</li>
-              <li>Intellectual Property Guidance</li>
-              <li>Innovation Challenges & Competitions</li>
-            </ul>
-            <a href="co-workspace.html" class="service-btn">Join Hub</a>
-          </div>
-        </div> -->
-        <!-- Entrepreneurship Support -->
-        <div class="col-lg-6 col-md-6">
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="msicon msi-shopping-bag"></i>
-            </div>
-            <h3>Gift Shop</h3>
-            <p>A wonderful Shop filled with awesome products of different Categories</p>
-            <ul class="service-features">
-              <li>Products on Display</li>
-              <li>Market Research & Analysis</li>
-              <li>Financial Management Training</li>
-              <li>Networking & Mentorship</li>
-              <li>Access to Funding Opportunities</li>
-            </ul>
-            <a href="entrepreneur-application.html" class="service-btn">Apply Now</a>
-          </div>
-        </div>
+          @endforeach
+        @endforeach
       </div>
     </div>
   </section>
-
-
-
   <!-- Statistics Section -->
   <!-- <section class="stats-section">
     <div class="container">

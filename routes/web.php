@@ -92,7 +92,10 @@ Route::get('/entrepreneur-application', function () {
 Route::get('/entrepreneurs', [App\Http\Controllers\EntrepreneurController::class, 'index'])->name('entrepreneurs.index');
 Route::get('/entrepreneurs/{entrepreneur}', [App\Http\Controllers\EntrepreneurController::class, 'show'])->name('entrepreneurs.show');
 Route::get('/full-profile/{entrepreneur?}', [App\Http\Controllers\EntrepreneurController::class, 'show'])->name('full-profile'); // Legacy route
-Route::get('/other-services', [App\Http\Controllers\ServiceController::class, 'index'])->name('services.index');
+// Services
+Route::get('/services', [App\Http\Controllers\ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}', [App\Http\Controllers\ServiceController::class, 'show'])->name('services.show');
+Route::get('/other-services', [App\Http\Controllers\ServiceController::class, 'index'])->name('other-services');
 Route::get('/our-team', [App\Http\Controllers\TeamController::class, 'index'])->name('team.index');
 Route::get('/welcome', function () {
     return view('welcome');
