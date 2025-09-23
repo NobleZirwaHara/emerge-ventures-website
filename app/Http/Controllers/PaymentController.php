@@ -26,7 +26,7 @@ class PaymentController extends Controller
 
             if ($order && $order->payment_status === 'pending') {
                 $order->update([
-                    'payment_status' => 'completed',
+                    'payment_status' => 'paid',
                     'status' => 'processing',
                 ]);
 
