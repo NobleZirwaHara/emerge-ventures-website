@@ -33,7 +33,8 @@ class PaychanguService
             ],
         ];
 
-        $response = Http::withToken($this->secretKey)
+        $response = Http::withoutVerifying()
+            ->withToken($this->secretKey)
             ->acceptJson()
             ->post($this->baseUrl . '/payment', $payload);
 
@@ -42,7 +43,8 @@ class PaychanguService
 
     public function verifyPayment($txRef)
     {
-        $response = Http::withToken($this->secretKey)
+        $response = Http::withoutVerifying()
+            ->withToken($this->secretKey)
             ->acceptJson()
             ->get($this->baseUrl . '/verify-payment/' . $txRef);
 
