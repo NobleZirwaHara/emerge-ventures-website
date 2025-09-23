@@ -236,7 +236,7 @@ class ShopController extends Controller
             }
 
             if (in_array($order->payment_method, ['mobile', 'bank'])) {
-                $baseUrl = $request->getSchemeAndHttpHost();
+                $baseUrl = $request->getScheme() . '://' . $request->header('host');
                 $paymentData = [
                     'amount' => $order->total_amount,
                     'currency' => 'MWK',
