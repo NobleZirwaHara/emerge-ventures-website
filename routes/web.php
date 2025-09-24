@@ -108,6 +108,7 @@ Route::post('/api/orders', [App\Http\Controllers\ShopController::class, 'placeOr
 // Payment Routes
 Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'callback'])->name('payment.callback');
 Route::get('/payment/return', [App\Http\Controllers\PaymentController::class, 'return'])->name('payment.return');
+Route::get('/order/{order:order_number}/confirmation', [App\Http\Controllers\ShopController::class, 'showConfirmation'])->name('order.confirmation');
 
 
 // Test route to verify data

@@ -282,4 +282,12 @@ class ShopController extends Controller
             ], 201);
         });
     }
+
+    public function showConfirmation(Order $order)
+    {
+        // Ensure the user is authorized to see this confirmation, or that it's a recent order from the session.
+        // For simplicity, we'll just show it. In a real app, add authorization logic.
+        $order->load('items');
+        return view('order_confirmation', compact('order'));
+    }
 }

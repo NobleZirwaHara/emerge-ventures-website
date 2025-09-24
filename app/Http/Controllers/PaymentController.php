@@ -33,9 +33,16 @@ class PaymentController extends Controller
                 // Queue confirmation emails
                 Mail::to($order->customer_email)->queue(new OrderConfirmation($order));
                 // Mail::to(config('mail.from.address'))->queue(new AdminOrderNotification($order));
+
+                return redirect()->route('order.confirmation', ['order' => $order->order_number]);
             }
 
-            return redirect()->route('shop.index')->with('success', 'Payment successful! Your order is being processed.');
+            // If order was already processed, still redirect to confirmation
+            if ($order) {
+                return redirect()->route('order.confirmation', ['order' => $order->order_number]);
+            }
+
+            return redirect()->route('shop.index')->with('error', 'Could not find the processed order.');
         } else {
             $order = Order::where('order_number', $txRef)->first();
             if ($order) {
