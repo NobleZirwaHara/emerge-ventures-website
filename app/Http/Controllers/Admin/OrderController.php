@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Mail\OrderStatusUpdated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -27,7 +29,14 @@ class OrderController extends Controller
             'payment_status' => 'required|in:pending,paid,failed,refunded',
         ]);
 
+        $originalStatus = $order->status;
+
         $order->update($validated);
+
+        // If the order status has changed, send a notification to the customer
+        if ($originalStatus !== $validated['status']) {
+            Mail::to($order->customer_email)->queue(new OrderStatusUpdated($order->fresh()));
+        }
 
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }

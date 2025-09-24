@@ -117,5 +117,37 @@
         <div class="text-sm text-gray-700">{{ $order->notes }}</div>
     </div>
     @endif
+
+    <!-- Update Status Form -->
+    <div class="bg-white rounded-lg shadow p-6 mt-6">
+        <h3 class="text-lg font-semibold mb-4">Update Order Status</h3>
+        <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700">Order Status</label>
+                    <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        @foreach(['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as $status)
+                            <option value="{{ $status }}" @if($order->status == $status) selected @endif>{{ ucfirst($status) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="payment_status" class="block text-sm font-medium text-gray-700">Payment Status</label>
+                    <select id="payment_status" name="payment_status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        @foreach(['pending', 'paid', 'failed', 'refunded'] as $payment_status)
+                            <option value="{{ $payment_status }}" @if($order->payment_status == $payment_status) selected @endif>{{ ucfirst($payment_status) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="pt-5">
+                    <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Update Status
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection

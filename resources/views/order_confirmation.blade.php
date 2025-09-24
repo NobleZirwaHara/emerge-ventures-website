@@ -52,3 +52,12 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    // Clear the cart from localStorage upon successful order confirmation
+    if (localStorage.getItem('emergeCart')) {
+        localStorage.removeItem('emergeCart');
+    }
+</script>
+@endpush
