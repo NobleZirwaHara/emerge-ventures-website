@@ -5,12 +5,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta name="keywords"
-    content="Emerge Ventures, shop, Malawi crafts, handmade products, local artisans, honey, bags, pottery, gifts">
-  <meta name="description"
-    content="Shop authentic Malawian crafts and products from local entrepreneurs. Support community artisans with handmade bags, organic honey, pottery, and unique gifts.">
-  <meta name="author" content="Emerge Ventures">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="description" content="Emerge Ventures - Coming Soon">
+  <meta name="author" content="ashishmaraviya">
 
   <!-- site Favicon -->
   <link rel="icon" href="assets/img/favicon/favicon.png" sizes="32x32">
@@ -19,383 +15,202 @@
   <link rel="stylesheet" href="assets/css/vendor/msicons.min.css">
 
   <!-- css All Plugins Files -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/plugins/animate.css">
+  <link rel="stylesheet" href="assets/css/plugins/bootstrap.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Main Style -->
-  <link rel="stylesheet" id="main_style" href="assets/css/demo-1.css">
+  <link rel="stylesheet" href="assets/css/demo-1.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
-  <link rel="stylesheet" href="assets/css/standard-navbar.css">
-  <link rel="stylesheet" href="assets/css/box.css">
   <link rel="stylesheet" href="assets/css/newsletter.css" />
-  <link rel="stylesheet" href="assets/css/dg.css" />
-  <link rel="stylesheet" href="assets/css/somo.css" />
   <link rel="stylesheet" href="assets/css/performance.css" />
-  <link rel="stylesheet" href="assets/css/shop.css" />
 
-  <link rel="stylesheet" href="assets/css/slider-image.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+  <style>
+    .coming-soon-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url('assets/img/bg/62.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
 
-  <title>Shop - Emerge Ventures</title>
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .countdown-item {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    .countdown-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .countdown-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .coming-soon-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .coming-soon-title {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    .coming-soon-description {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .social-links {
+      margin-top: 2rem;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: opacity 0.3s;
+    }
+
+    .social-links a:hover {
+      opacity: 0.7;
+    }
+
+    .newsletter-form {
+      max-width: 400px;
+      margin: 2rem auto;
+    }
+
+    .newsletter-form input {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.8rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .newsletter-form input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .newsletter-form button {
+      background: #28a745;
+      border: none;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .newsletter-form button:hover {
+      background: #218838;
+    }
+  </style>
+
+  <title>Coming Soon - Emerge Ventures</title>
 </head>
 
 <body>
-  <!-- Loader -->
-  <div id="ms-overlay">
-    <div class="loader"></div>
-  </div>
-
-  <!-- Standard Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+  <section class="coming-soon-section">
     <div class="container">
-      <!-- Brand/Logo -->
-      <a class="navbar-brand" href="index">
-        <img src="assets/img/logo/logov.png" alt="Site Logo" height="45" class="critical-img">
-      </a>
+      <div class="coming-soon-content">
+        <!-- <img src="assets/img/logo/logov.png" alt="Emerge Ventures Logo" style="width: 200px; margin-bottom: 2rem;"> -->
+        
+        <h1 class="coming-soon-title">Coming Soon</h1>
+        <p class="coming-soon-description">
+          We're working on something exciting! Our new platform for innovative enterprise and digital skills training
+          will be launching soon.
+        </p>
 
-      <!-- Mobile menu toggle button -->
-      <button class="navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <div class="hamburger-lines">
-          <span class="line line1"></span>
-          <span class="line line2"></span>
-          <span class="line line3"></span>
-        </div>
-      </button>
-
-      <!-- Navigation Menu -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#">
-              About Us
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="other-services.">Other Services</a></li>
-              <li><a class="dropdown-item" href="our-team">Team</a></li>
-              <li><a class="dropdown-item" href="Contact">Contact Us</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#">
-              Get Involved
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="digital-skills">Digital Skills</a></li>
-              <li><a class="dropdown-item" href="entrepreneur-application">Entrepreneurial Application Form</a>
-              </li>
-              <li><a class="dropdown-item" href="co-workspace">Creative Co-Workspace</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="shop">Shop</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="entrepreneurs">Discover Our Entrepreneurs</a>
-          </li>
-        </ul>
-
-        <!-- Cart Icon -->
-        <div class="navbar-nav ms-3">
-          <a class="nav-link position-relative" href="#" id="cartToggle">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-badge" id="cartCount">0</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="shop-hero">
-    <div class="container">
-      <div class="row align-items-center justify-content-center text-center">
-        <div class="col-lg-8">
-          <div class="hero-content">
-            <h1 class="hero-title">Emerge Shop</h1>
-            <p class="hero-subtitle">Discover authentic Malawian crafts and products made by local entrepreneurs</p>
-            <div class="hero-features">
-              <div class="feature-item">
-                <i class="fas fa-shipping-fast"></i>
-                <span>Free Delivery Around Mzuzu</span>
-              </div>
-              <div class="feature-item">
-                <i class="fas fa-handshake"></i>
-                <span>Support Local</span>
-              </div>
-              <div class="feature-item">
-                <i class="fas fa-award"></i>
-                <span>Quality Guaranteed</span>
-              </div>
-            </div>
+        <div class="countdown-timer">
+          <div class="countdown-item">
+            <div class="countdown-number" id="days">00</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-number" id="hours">00</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-number" id="minutes">00</div>
+            <div class="countdown-label">Minutes</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-number" id="seconds">00</div>
+            <div class="countdown-label">Seconds</div>
           </div>
         </div>
+<!-- 
+        <div class="newsletter-form">
+          <form>
+            <input type="email" placeholder="Enter your email address" class="form-control mb-3">
+            <button type="submit" class="btn btn-success w-100">Notify Me</button>
+          </form>
+        </div> -->
+
+        <!-- <div class="social-links">
+          <a href="#"><i class="msicon msi-facebook-square"></i></a>
+          <a href="#"><i class="msicon msi-twitter-square"></i></a>
+          <a href="#"><i class="msicon msi-instagram"></i></a>
+          <a href="#"><i class="msicon msi-linkedin-square"></i></a>
+        </div> -->
       </div>
     </div>
   </section>
 
-  <!-- Filter Section -->
-  <section class="filter-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="filter-bar">
-            <div class="filter-left">
-              <h5 class="mb-0">Shop Products</h5>
-              <span class="product-count" id="productCount">Showing all products</span>
-            </div>
-            <div class="filter-right">
-              <div class="filter-controls">
-                <select class="form-select filter-select" id="categoryFilter">
-                  <option value="all">All Categories</option>
-                  @forelse($categories as $category)
-                    <option value="{{ $category->slug }}">{{ $category->name }}</option>
-                  @empty
-                    <option value="bags">Bags & Accessories</option>
-                    <option value="honey">Honey & Food</option>
-                    <option value="pottery">Pottery & Crafts</option>
-                    <option value="beauty">Beauty Products</option>
-                    <option value="art">Art & Portraits</option>
-                  @endforelse
-                </select>
-                <select class="form-select filter-select" id="sortFilter">
-                  <option value="default">Sort by</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="name">Name: A to Z</option>
-                  <option value="newest">Newest First</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script>
+    // Set the launch date (adjust as needed)
+    const launchDate = new Date('January 1, 2026 00:00:00').getTime();
 
-  <!-- Products Section -->
-  <section class="products-section">
-    <div class="container">
-      <div class="row" id="productsGrid">
-        <!-- Products will be dynamically loaded here -->
-      </div>
-    </div>
-  </section>
+    // Update countdown every second
+    const countdown = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
 
-  <!-- Cart Sidebar -->
-  <div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-      <h5>Shopping Cart</h5>
-      <button class="cart-close" id="cartClose">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="cart-body" id="cartBody">
-      <div class="empty-cart">
-        <i class="fas fa-shopping-cart"></i>
-        <p>Your cart is empty</p>
-      </div>
-    </div>
-    <div class="cart-footer" id="cartFooter" style="display: none;">
-      <div class="cart-total">
-        <strong>Total: MWK <span id="cartTotal">0</span></strong>
-      </div>
-      <button class="btn-checkout" onclick="proceedToCheckout()">
-        Proceed to Checkout
-      </button>
-    </div>
-  </div>
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  <!-- Cart Overlay -->
-  <div class="cart-overlay" id="cartOverlay"></div>
+      document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+      document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
 
-  <!-- Product Modal -->
-  <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="productModalLabel">Product Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="modalBody">
-          <!-- Product details will be loaded here -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- # -->
-  <section class="padding-tb-30">
-
-  </section>
-  <!-- Newsletter Section -->
-  <section class="ms-african-section d-flex align-items-center justify-content-center">
-    <div class="ms-content-box text-center">
-      <div class="col-md-12">
-        <div class="ms-newsletter">
-          <div class="ms-newsletter-detail">
-            <div class="ms-detail">
-              <h4>Stay Updated</h4>
-              <p>Get notified about new products and special offers</p>
-            </div>
-            <div class="ms-newsletter-form">
-              <form>
-                <input type="email" id="email" name="email" placeholder="Email Address"><br>
-                <button class="ms-btn-2" type="submit" value="Submit"><img src="assets/icons/send.svg" class="svg_img"
-                    alt="send"></button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer Start -->
-  <footer class="ms-footer m-t-30">
-    <div class="footer-container">
-      <div class="footer-top padding-tb-60">
-        <div class="container">
-          <div class="row m-minus-991">
-            <div class="col-sm-12 col-lg-3 ms-footer-cat">
-              <div class="ms-footer-widget ms-footer-company">
-                <img src="assets/img/logo/logov.png" class="ms-footer-logo" alt="footer logo">
-                <p class="ms-footer-detail">Emerge Ventures is the biggest market of innovative
-                  products. Get your daily
-                  needs from our Gift Shop.</p>
-              </div>
-            </div>
-            <div class="col-sm-12 col-lg-3 ms-footer-cont-social">
-              <div class="ms-footer-contact">
-                <div class="ms-footer-widget">
-                  <h4 class="ms-footer-heading">Contact</h4>
-                  <div class="ms-footer-links ms-footer-dropdown">
-                    <ul class="align-items-center">
-                      <li class="ms-footer-link ms-foo-location"><span><img src="assets/img/icons/foo-location.svg"
-                            class="svg_img foo_svg" alt=""></span>
-                        <p>Emerge Hub - Mzuzu<br />
-                          Kwawala House, First Floor<br />
-                          P.O. Box 20094
-                          Mzuzu, Malawi</p>
-                      </li>
-                      <li class="ms-footer-link ms-foo-call"><span><img src="assets/img/icons/foo-wp.svg"
-                            class="svg_img foo_svg" alt=""></span><a href="tel:+265881404393">+265 881 404 393</a>
-                      </li>
-                      <li class="ms-footer-link ms-foo-mail"><span><img src="assets/img/icons/foo-mail.svg"
-                            class="svg_img foo_svg" alt=""></span><a
-                          href="mailto:hello@emergeventures.com">hello@emergeventures.com</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="ms-footer-social">
-                <div class="ms-footer-widget">
-                  <div class="ms-footer-links ms-footer-dropdown">
-                    <ul class="">
-                      <li class="ms-footer-link"><a href="#"><i class="msicon msi-instagram" aria-hidden="true"></i></a>
-                      </li>
-                      <li class="ms-footer-link"><a href="#"><i class="msicon msi-twitter-square"
-                            aria-hidden="true"></i></a></li>
-                      <li class="ms-footer-link"><a href="#"><i class="msicon msi-facebook-square"
-                            aria-hidden="true"></i></a></li>
-                      <li class="ms-footer-link"><a href="#"><i class="msicon msi-linkedin-square"
-                            aria-hidden="true"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12 col-lg-2 ms-footer-info">
-              <div class="ms-footer-widget">
-                <h4 class="ms-footer-heading">Category</h4>
-                <div class="ms-footer-links ms-footer-dropdown">
-                  <ul class="align-items-center">
-                    <li class="ms-footer-link"><a href="#" onclick="filterByCategory('bags')">Bags</a></li>
-                    <li class="ms-footer-link"><a href="#" onclick="filterByCategory('honey')">Honey</a></li>
-                    <li class="ms-footer-link"><a href="#" onclick="filterByCategory('pottery')">Flower Pots</a></li>
-                    <li class="ms-footer-link"><a href="#" onclick="filterByCategory('beauty')">Body Scrubs</a></li>
-                    <li class="ms-footer-link"><a href="#" onclick="filterByCategory('beauty')">Powder</a></li>
-                    <li class="ms-footer-link"><a href="#" onclick="filterByCategory('art')">Portraits</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12 col-lg-2 ms-footer-account">
-              <div class="ms-footer-widget">
-                <h4 class="ms-footer-heading">Company</h4>
-                <div class="ms-footer-links ms-footer-dropdown">
-                  <ul class="align-items-center">
-                    <li class="ms-footer-link"><a href="index">About us</a></li>
-                    <li class="ms-footer-link"><a href="#delivery-info">Delivery</a></li>
-                    <li class="ms-footer-link"><a href="#payment-info">Secure payment</a></li>
-                    <li class="ms-footer-link"><a href="Contact">Contact us</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12 col-lg-2 ms-footer-service">
-              <div class="ms-footer-widget">
-                <h4 class="ms-footer-heading">Account</h4>
-                <div class="ms-footer-links ms-footer-dropdown">
-                  <ul class="align-items-center">
-                    <li class="ms-footer-link"><a href="#" onclick="showLoginModal()">Sign In</a></li>
-                    <li class="ms-footer-link"><a href="#" onclick="toggleCart()">View Cart</a></li>
-                    <li class="ms-footer-link"><a href="entrepreneur-application">Become Entrepreneur</a></li>
-                    <li class="ms-footer-link"><a href="co-workspace">Co-Workspaces</a></li>
-                    <li class="ms-footer-link"><a href="#payment-info">Payments</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="container">
-          <div class="row">
-            <div class="ms-bottom-info">
-              <!-- Footer Copyright Start -->
-              <div class="footer-copy">
-                <div class="footer-bottom-copy ">
-                  <div class="ms-copy">©<a class="site-name" href="index">Emerge Ventures
-                      2025</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- Footer Area End -->
-
-  <!-- Back to top  -->
-  <a class="ms-back-to-top"></a>
+      if (distance < 0) {
+        clearInterval(countdown);
+        document.getElementById('countdown').innerHTML = 'LAUNCHED!';
+      }
+    }, 1000);
+  </script>
 
   <!-- Plugins JS -->
   <script src="assets/js/plugins/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- Main Js -->
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/demo-1.js"></script>
-  <script src="assets/js/standard-navbar.js"></script>
+  <script src="assets/js/plugins/bootstrap.bundle.min.js"></script>
   <script src="assets/js/lazy-loading.js"></script>
   <script src="assets/js/performance-optimizer.js"></script>
-  <script>
-    // Pass Laravel data to JavaScript
-    window.laravelData = {
-      products: @json($productsData),
-      categories: @json($categoriesData)
-    };
-  </script>
-  <script src="assets/js/shop.js"></script>
 </body>
 
 </html>

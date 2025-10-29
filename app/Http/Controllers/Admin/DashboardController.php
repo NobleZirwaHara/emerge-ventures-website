@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\Product;
 use App\Models\Entrepreneur;
 use App\Models\DigitalSkill;
+use App\Models\Service;
+use App\Models\TeamMember;
+// WorkspaceBooking model is optional
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -16,97 +16,132 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Sales Performance
-        $totalRevenue = Order::where('payment_status', 'paid')->sum('total_amount');
-        $monthlyRevenue = Order::where('payment_status', 'paid')
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->sum('total_amount');
+        // User Analytics
+        $totalUsers = User::count();
+        $newUsersThisMonth = User::whereMonth('created_at', Carbon::now()->month)->count();
+        $userGrowthRate = $this->calculateGrowthRate(User::class);
         
-        $totalOrders = Order::count();
-        $pendingOrders = Order::where('status', 'pending')->count();
-        
-        // Inventory Levels
-        $totalProducts = Product::count();
-        $lowStockProducts = Product::where('manage_stock', true)
-            ->where('stock_quantity', '<=', 10)
-            ->count();
-        $outOfStockProducts = Product::where('manage_stock', true)
-            ->where('stock_quantity', 0)
-            ->count();
-        
-        // Other Metrics
+        // Entrepreneur Metrics
         $totalEntrepreneurs = Entrepreneur::count();
         $pendingEntrepreneurs = Entrepreneur::where('status', 'pending')->count();
+        $verifiedEntrepreneurs = Entrepreneur::where('status', 'approved')->count();
+        
+        // Service Metrics
+        $totalServices = Service::count();
+        $activeServices = Service::where('is_active', true)->count();
+        
+        // Digital Skills Metrics
         $totalDigitalSkills = DigitalSkill::count();
-        $totalUsers = User::count();
+        $popularSkills = $this->getPopularSkills();
         
+        // Team Metrics
+        $totalTeamMembers = TeamMember::count();
+        
+        // Workspace Metrics - Disabled as WorkspaceBooking model is not available
+        $totalWorkspaceBookings = 0;
+        $upcomingBookings = collect([]);
+            
         // Recent Activities
-        $recentOrders = Order::with('user')->latest()->take(5)->get();
-        $recentEntrepreneurs = Entrepreneur::latest()->take(5)->get();
-        
+        $recentEntrepreneurs = Entrepreneur::latest()
+            ->take(5)
+            ->get();
+            
         // Charts Data
-        $salesChart = $this->getSalesChartData();
-        $ordersChart = $this->getOrdersChartData();
-        $topProducts = $this->getTopProducts();
+        $userGrowthChart = $this->getUserGrowthData();
+        $entrepreneurGrowthChart = $this->getEntrepreneurGrowthData();
         
         return view('admin.dashboard', compact(
-            'totalRevenue',
-            'monthlyRevenue',
-            'totalOrders',
-            'pendingOrders',
-            'totalProducts',
-            'lowStockProducts',
-            'outOfStockProducts',
+            // User Analytics
+            'totalUsers',
+            'newUsersThisMonth',
+            'userGrowthRate',
+            
+            // Entrepreneur Metrics
             'totalEntrepreneurs',
             'pendingEntrepreneurs',
+            'verifiedEntrepreneurs',
+            
+            // Service Metrics
+            'totalServices',
+            'activeServices',
+            
+            // Digital Skills Metrics
             'totalDigitalSkills',
-            'totalUsers',
-            'recentOrders',
+            'popularSkills',
+            
+            // Team Metrics
+            'totalTeamMembers',
+            
+            // Workspace Metrics
+            'totalWorkspaceBookings',
+            'upcomingBookings',
+            
+            // Recent Activities
             'recentEntrepreneurs',
-            'salesChart',
-            'ordersChart',
-            'topProducts'
+            
+            // Charts Data
+            'userGrowthChart',
+            'entrepreneurGrowthChart'
         ));
     }
     
-    private function getSalesChartData()
+    private function calculateGrowthRate($model)
     {
-        $data = Order::where('payment_status', 'paid')
-            ->selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
-            ->where('created_at', '>=', Carbon::now()->subDays(30))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-            
-        return [
-            'labels' => $data->pluck('date')->map(fn($date) => Carbon::parse($date)->format('M d')),
-            'data' => $data->pluck('total')
-        ];
+        $currentMonth = $model::whereMonth('created_at', Carbon::now()->month)->count();
+        $lastMonth = $model::whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+        
+        if ($lastMonth === 0) {
+            return $currentMonth > 0 ? 100 : 0;
+        }
+        
+        return round((($currentMonth - $lastMonth) / $lastMonth) * 100, 2);
     }
     
-    private function getOrdersChartData()
+    private function getPopularSkills()
     {
-        $data = Order::selectRaw('DATE(created_at) as date, COUNT(*) as count')
-            ->where('created_at', '>=', Carbon::now()->subDays(30))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-            
-        return [
-            'labels' => $data->pluck('date')->map(fn($date) => Carbon::parse($date)->format('M d')),
-            'data' => $data->pluck('count')
-        ];
-    }
-    
-    private function getTopProducts()
-    {
-        return Product::select('products.*', DB::raw('SUM(order_items.quantity) as total_sold'))
-            ->join('order_items', 'products.id', '=', 'order_items.product_id')
-            ->join('orders', 'order_items.order_id', '=', 'orders.id')
-            ->where('orders.payment_status', 'paid')
-            ->groupBy('products.id')
-            ->orderByDesc('total_sold')
+        return DigitalSkill::where('is_active', true)
+            ->latest()
             ->take(5)
-            ->get();
+            ->get(['id', 'title']);
+    }
+    
+    private function getUserGrowthData()
+    {
+        $data = [];
+        $labels = [];
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $labels[] = $date->format('M Y');
+            
+            $data[] = User::whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month)
+                ->count();
+        }
+        
+        return [
+            'labels' => $labels,
+            'data' => $data,
+        ];
+    }
+    
+    private function getEntrepreneurGrowthData()
+    {
+        $data = [];
+        $labels = [];
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $labels[] = $date->format('M Y');
+            
+            $data[] = Entrepreneur::whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month)
+                ->count();
+        }
+        
+        return [
+            'labels' => $labels,
+            'data' => $data,
+        ];
     }
 }

@@ -55,49 +55,60 @@
                     <p>We'll get back to you within 24 hours</p>
                   </div>
 
-                  <form class="modern-form">
+                  <form class="modern-form" id="contactForm">
+                    @csrf
+                    <div id="form-messages"></div>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="fname" placeholder="Full Name" required>
+                          <input type="text" class="form-control" id="fname" name="fname" placeholder="Full Name" required>
                           <label for="fname">Full Name</label>
+                          <div class="invalid-feedback"></div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                          <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
                           <label for="email">Email Address</label>
+                          <div class="invalid-feedback"></div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
-                          <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
+                          <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone Number" required>
                           <label for="phone">Phone Number</label>
+                          <div class="invalid-feedback"></div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="mb-3">
-                          <select class="form-select" id="subject" required>
+                          <select class="form-select" id="subject" name="subject" required>
                             <option value="">Subject</option>
-                            <option value="general">General Inquiry</option>
-                            <option value="digital-skills">Digital Skills Training</option>
-                            <option value="coworking">Co-working Space</option>
-                            <option value="entrepreneurship">Entrepreneurship Support</option>
-                            <option value="partnership">Partnership</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Digital Skills Training">Digital Skills Training</option>
+                            <option value="Co-working Space">Co-working Space</option>
+                            <option value="Entrepreneurship Support">Entrepreneurship Support</option>
+                            <option value="Partnership">Partnership</option>
                           </select>
+                          <div class="invalid-feedback"></div>
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-floating mb-4">
-                          <textarea class="form-control" id="message" style="height: 120px" placeholder="Your Message"
+                          <textarea class="form-control" id="message" name="message" style="height: 120px" placeholder="Your Message"
                             required></textarea>
                           <label for="message">Your Message</label>
+                          <div class="invalid-feedback"></div>
                         </div>
                       </div>
                       <div class="col-12">
-                        <button type="submit" class="btn-modern-primary">
-                          <span>Send Message</span>
-                          <i class="fas fa-paper-plane"></i>
+                        <button type="submit" class="btn-modern-primary" id="submitBtn">
+                          <span class="btn-text">Send Message</span>
+                          <span class="btn-spinner d-none">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Sending...
+                          </span>
+                          <i class="fas fa-paper-plane btn-icon"></i>
                         </button>
                       </div>
                     </div>
@@ -226,16 +237,243 @@
               <p>Subscribe to our newsletter for updates and opportunities</p>
             </div>
             <div class="ms-newsletter-form">
-              <form>
-                <input type="email" id="newsletter-email" name="email" placeholder="Email Address"><br>
-                <button class="ms-btn-2" type="submit" value="Submit"><img src="assets/icons/send.svg" class="svg_img"
-                    alt="send"></button>
+              <form id="newsletterForm">
+                @csrf
+                <input type="email" id="newsletter-email" name="email" placeholder="Email Address" required><br>
+                <button class="ms-btn-2" type="submit" id="newsletterBtn">
+                  <img src="assets/icons/send.svg" class="svg_img newsletter-icon" alt="send">
+                  <span class="newsletter-spinner d-none">
+                    <i class="fas fa-spinner fa-spin"></i>
+                  </span>
+                </button>
               </form>
+              <div id="newsletter-message" class="mt-2"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Contact Form JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const contactForm = document.getElementById('contactForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const btnSpinner = submitBtn.querySelector('.btn-spinner');
+      const btnIcon = submitBtn.querySelector('.btn-icon');
+      const messagesDiv = document.getElementById('form-messages');
+
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Clear previous messages and validation states
+        clearMessages();
+        clearValidationStates();
+        
+        // Show loading state
+        setLoadingState(true);
+        
+        try {
+          const formData = new FormData(contactForm);
+          
+          const response = await fetch('{{ route("contact.store") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            showMessage(data.message, 'success');
+            contactForm.reset();
+          } else {
+            if (data.errors) {
+              showValidationErrors(data.errors);
+            } else {
+              showMessage(data.message || 'An error occurred. Please try again.', 'error');
+            }
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showMessage('Network error. Please check your connection and try again.', 'error');
+        } finally {
+          setLoadingState(false);
+        }
+      });
+
+      function setLoadingState(loading) {
+        if (loading) {
+          submitBtn.disabled = true;
+          btnText.classList.add('d-none');
+          btnSpinner.classList.remove('d-none');
+          btnIcon.classList.add('d-none');
+        } else {
+          submitBtn.disabled = false;
+          btnText.classList.remove('d-none');
+          btnSpinner.classList.add('d-none');
+          btnIcon.classList.remove('d-none');
+        }
+      }
+
+      function showMessage(message, type) {
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+        
+        messagesDiv.innerHTML = `
+          <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+            <i class="fas ${iconClass} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        `;
+        
+        // Scroll to message
+        messagesDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function showValidationErrors(errors) {
+        Object.keys(errors).forEach(field => {
+          const input = document.getElementById(field);
+          const feedback = input.parentElement.querySelector('.invalid-feedback');
+          
+          if (input && feedback) {
+            input.classList.add('is-invalid');
+            feedback.textContent = errors[field][0];
+          }
+        });
+        
+        // Show general error message
+        showMessage('Please correct the errors below and try again.', 'error');
+      }
+
+      function clearMessages() {
+        messagesDiv.innerHTML = '';
+      }
+
+      function clearValidationStates() {
+        const inputs = contactForm.querySelectorAll('.form-control, .form-select');
+        inputs.forEach(input => {
+          input.classList.remove('is-invalid');
+          const feedback = input.parentElement.querySelector('.invalid-feedback');
+          if (feedback) {
+            feedback.textContent = '';
+          }
+        });
+      }
+    });
+
+    // Newsletter Form Handler
+    const newsletterForm = document.getElementById('newsletterForm');
+    const newsletterBtn = document.getElementById('newsletterBtn');
+    const newsletterIcon = newsletterBtn.querySelector('.newsletter-icon');
+    const newsletterSpinner = newsletterBtn.querySelector('.newsletter-spinner');
+    const newsletterMessage = document.getElementById('newsletter-message');
+
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('newsletter-email').value;
+        
+        // Show loading state
+        newsletterBtn.disabled = true;
+        newsletterIcon.classList.add('d-none');
+        newsletterSpinner.classList.remove('d-none');
+        newsletterMessage.innerHTML = '';
+        
+        try {
+          const formData = new FormData(newsletterForm);
+          
+          const response = await fetch('{{ route("newsletter.subscribe") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+            }
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            newsletterMessage.innerHTML = `
+              <div class="alert alert-success mt-2" style="font-size: 14px; padding: 8px 12px;">
+                <i class="fas fa-check-circle me-1"></i>
+                ${data.message}
+              </div>
+            `;
+            newsletterForm.reset();
+          } else {
+            newsletterMessage.innerHTML = `
+              <div class="alert alert-danger mt-2" style="font-size: 14px; padding: 8px 12px;">
+                <i class="fas fa-exclamation-triangle me-1"></i>
+                ${data.message}
+              </div>
+            `;
+          }
+        } catch (error) {
+          console.error('Newsletter subscription error:', error);
+          newsletterMessage.innerHTML = `
+            <div class="alert alert-danger mt-2" style="font-size: 14px; padding: 8px 12px;">
+              <i class="fas fa-exclamation-triangle me-1"></i>
+              Network error. Please try again.
+            </div>
+          `;
+        } finally {
+          // Reset loading state
+          newsletterBtn.disabled = false;
+          newsletterIcon.classList.remove('d-none');
+          newsletterSpinner.classList.add('d-none');
+        }
+      });
+    }
+  </script>
+
+  <style>
+    .btn-modern-primary {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-modern-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    .alert {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .alert-success {
+      background: linear-gradient(135deg, #d4edda, #c3e6cb);
+      color: #155724;
+    }
+    
+    .alert-danger {
+      background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+      color: #721c24;
+    }
+    
+    .form-control.is-invalid,
+    .form-select.is-invalid {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+    
+    .invalid-feedback {
+      display: block;
+      width: 100%;
+      margin-top: 0.25rem;
+      font-size: 0.875em;
+      color: #dc3545;
+    }
+  </style>
 </body>
 @endsection

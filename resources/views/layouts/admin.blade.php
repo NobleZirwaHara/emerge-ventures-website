@@ -18,14 +18,16 @@
 
             <nav class="space-y-2">
                 <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.dashboard')) bg-gray-700 @endif">Dashboard</a>
-                <a href="{{ route('admin.products.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.products.*')) bg-gray-700 @endif">Products</a>
-                <a href="{{ route('admin.orders.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.orders.*')) bg-gray-700 @endif">Orders</a>
                 <a href="{{ route('admin.entrepreneurs.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.entrepreneurs.*')) bg-gray-700 @endif">Entrepreneurs</a>
                 <a href="{{ route('admin.digital-skills.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.digital-skills.*')) bg-gray-700 @endif">Digital Skills</a>
                 <a href="{{ route('admin.services.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.services.*')) bg-gray-700 @endif">Services</a>
-                <a href="{{ route('admin.team-members.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.team-members.*')) bg-gray-700 @endif">Team</a>
-                <a href="{{ route('admin.workspace-bookings.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.workspace-bookings.*')) bg-gray-700 @endif">Workspace</a>
                 <a href="{{ route('admin.users.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.users.*')) bg-gray-700 @endif">Users</a>
+                <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    @csrf
+                    <button type="submit" class="w-full text-left block py-2 px-4 rounded hover:bg-gray-700 text-white">
+                        {{ __('Log Out') }}
+                    </button>
+                </form>
             </nav>
         </div>
 
