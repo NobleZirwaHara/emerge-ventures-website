@@ -179,15 +179,20 @@ function processOrder(orderData) {
         return body;
       })
       .then((data) => {
-        // Clear cart on success
-        localStorage.removeItem('emergeCart');
-        // Reflect server order in the success screen
-        const serverOrder = {
-          ...orderData,
-          orderId: data.order.order_number,
-          total: data.order.total
-        };
-        showOrderSuccess(serverOrder);
+        if (data.checkout_url) {
+          // Redirect to payment gateway
+          window.location.href = data.checkout_url;
+        } else {
+          // Clear cart on success for non-gateway orders
+          localStorage.removeItem('emergeCart');
+          // Reflect server order in the success screen
+          const serverOrder = {
+            ...orderData,
+            orderId: data.order.order_number,
+            total: data.order.total
+          };
+          showOrderSuccess(serverOrder);
+        }
       })
       .catch((error) => {
         console.error('Order processing error:', error);
