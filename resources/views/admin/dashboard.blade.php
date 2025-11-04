@@ -21,6 +21,7 @@
                 <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded bg-gray-700">Dashboard</a>
                 <a href="{{ route('admin.entrepreneurs.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Entrepreneurs</a>
                 <a href="{{ route('admin.digital-skills.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Digital Skills</a>
+                <a href="{{ route('admin.digital-skill-applications.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Applications</a>
                 <a href="{{ route('admin.services.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Services</a>
                 <!-- Team and Workspace links are commented out as their routes don't exist yet -->
                 <!-- <a href="{{-- route('admin.team-members.index') --}}" class="block py-2 px-4 rounded hover:bg-gray-700">Team</a> -->
@@ -185,34 +186,6 @@
                         </div>
                         @empty
                         <p class="text-gray-500 text-center py-4">No recent entrepreneurs found</p>
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Upcoming Workspace Bookings -->
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Upcoming Workspace Bookings</h3>
-                        <a href="{{ route('admin.workspace-bookings.index') }}" class="text-sm text-blue-600 hover:underline">View All</a>
-                    </div>
-                    <div class="space-y-3">
-                        @forelse($upcomingBookings as $booking)
-                        <div class="flex justify-between items-center py-2 border-b">
-                            <div>
-                                <p class="font-medium text-gray-900">{{ $booking->user->name ?? 'Guest' }}</p>
-                                <p class="text-sm text-gray-600">
-                                    {{ \Carbon\Carbon::parse($booking->start_date)->format('M d, Y') }}
-                                    @if($booking->end_date)
-                                        - {{ \Carbon\Carbon::parse($booking->end_date)->format('M d, Y') }}
-                                    @endif
-                                </p>
-                            </div>
-                            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                                {{ $booking->status }}
-                            </span>
-                        </div>
-                        @empty
-                        <p class="text-gray-500 text-center py-4">No upcoming bookings</p>
                         @endforelse
                     </div>
                 </div>

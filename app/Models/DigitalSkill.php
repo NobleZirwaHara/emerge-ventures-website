@@ -38,4 +38,9 @@ class DigitalSkill extends Model
         'start_date' => 'date',
         'end_date' => 'date',
     ];
+
+    public function applications()
+    {
+        return $this->hasMany(DigitalSkillApplication::class);
+    }
 }

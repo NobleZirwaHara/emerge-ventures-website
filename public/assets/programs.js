@@ -106,28 +106,6 @@ function getProgramById(programId) {
 // Function to handle program application
 function handleProgramApplication(event) {
     event.preventDefault();
-
-    const form = event.target;
-    const formData = new FormData(form);
-    const application = Object.fromEntries(formData.entries());
-
-    // Here you would typically send this data to a server
-    console.log('Application submitted:', application);
-
-    // Show success message
-    const program = getProgramById(application.program);
-    const programName = program ? program.title : application.program;
-    alert(`Thank you for your application to the ${programName} program! We'll be in touch soon.`);
-
-    // Close the modal
-    const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
-    if (modal) {
-        modal.hide();
-    }
-
-    // Reset the form
-    form.reset();
-    resetProgramForm();
 }
 
 // Function to update program details in the application form

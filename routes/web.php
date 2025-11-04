@@ -25,14 +25,14 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
-    // Products Management
-    Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
-    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    // Products Management (commented out - controllers don't exist)
+    // Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
+    // Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
     
-    // Orders Management
-    Route::get('orders', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
-    Route::get('orders/{order}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
-    Route::patch('orders/{order}/status', [App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    // Orders Management (commented out - controllers don't exist)
+    // Route::get('orders', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
+    // Route::get('orders/{order}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
+    // Route::patch('orders/{order}/status', [App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     
     // Entrepreneurs Management
     Route::get('entrepreneurs', [App\Http\Controllers\Admin\EntrepreneurController::class, 'index'])->name('entrepreneurs.index');
@@ -47,6 +47,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Digital Skills Management
     Route::resource('digital-skills', App\Http\Controllers\Admin\DigitalSkillController::class);
     
+    // Digital Skills Applications Management
+    Route::get('digital-skill-applications', [App\Http\Controllers\DigitalSkillApplicationController::class, 'index'])->name('digital-skill-applications.index');
+    Route::get('digital-skill-applications/{application}', [App\Http\Controllers\DigitalSkillApplicationController::class, 'show'])->name('digital-skill-applications.show');
+    Route::patch('digital-skill-applications/{application}/status', [App\Http\Controllers\DigitalSkillApplicationController::class, 'updateStatus'])->name('digital-skill-applications.updateStatus');
+    
     // Services Management
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class);
     
@@ -56,10 +61,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // // Team Management
     // Route::resource('team-members', App\Http\Controllers\Admin\TeamMemberController::class);
     
-    // Workspace Bookings Management
-    Route::get('workspace-bookings', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'index'])->name('workspace-bookings.index');
-    Route::get('workspace-bookings/{workspaceBooking}', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'show'])->name('workspace-bookings.show');
-    Route::patch('workspace-bookings/{workspaceBooking}/status', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'updateStatus'])->name('workspace-bookings.updateStatus');
+    // Workspace Bookings Management (commented out - controllers don't exist)
+    // Route::get('workspace-bookings', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'index'])->name('workspace-bookings.index');
+    // Route::get('workspace-bookings/{workspaceBooking}', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'show'])->name('workspace-bookings.show');
+    // Route::patch('workspace-bookings/{workspaceBooking}/status', [App\Http\Controllers\Admin\WorkspaceBookingController::class, 'updateStatus'])->name('workspace-bookings.updateStatus');
     
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
@@ -81,6 +86,8 @@ if (app()->environment(['local', 'testing'])) {
     require __DIR__.'/test.php';
 }
 
+
+
 // Route::get('/checkout', function () {
 //     return view('checkout');
 // });
@@ -100,6 +107,7 @@ Route::get('/shop', function () {
     return view('shop');
 });
 Route::get('/digital-skills', [App\Http\Controllers\DigitalSkillController::class, 'index'])->name('digital-skills.index');
+Route::post('/digital-skills/apply', [App\Http\Controllers\DigitalSkillApplicationController::class, 'store'])->name('digital-skills.apply');
 Route::get('/entrepreneur-application', function () {
     return view('entrepreneur-application');
 });
