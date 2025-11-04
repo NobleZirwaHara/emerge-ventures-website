@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DigitalSkill;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class DigitalSkillController extends Controller
@@ -14,6 +15,8 @@ class DigitalSkillController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('digital-skills', compact('digitalSkills'));
+        $applicationsEnabled = Setting::get('digital_skills_applications_enabled', true);
+
+        return view('digital-skills', compact('digitalSkills', 'applicationsEnabled'));
     }
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard - Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -130,6 +131,27 @@
                     <h3 class="text-lg font-semibold mb-4">Entrepreneur Growth (Last 6 Months)</h3>
                     <div class="relative" style="height: 250px">
                         <canvas id="entrepreneurGrowthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Skills Settings -->
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <h3 class="text-lg font-semibold mb-4">Digital Skills Settings</h3>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-gray-900">Applications Status</p>
+                        <p class="text-sm text-gray-600">Control whether users can apply for digital skills training</p>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="applicationsToggle" class="sr-only peer" 
+                                   {{ $digitalSkillsApplicationsEnabled ? 'checked' : '' }}>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                        <span class="ml-3 text-sm font-medium text-gray-900" id="toggleStatus">
+                            {{ $digitalSkillsApplicationsEnabled ? 'Enabled' : 'Disabled' }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -264,6 +286,49 @@
                     }
                 }
             }
+        });
+
+        // Digital Skills Applications Toggle
+        document.getElementById('applicationsToggle').addEventListener('change', function() {
+            const enabled = this.checked;
+            const statusText = document.getElementById('toggleStatus');
+            
+            fetch('{{ route("admin.settings.toggle-digital-skills-applications") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    enabled: enabled
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusText.textContent = enabled ? 'Enabled' : 'Disabled';
+                    
+                    // Show a temporary success message
+                    const message = document.createElement('div');
+                    message.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50';
+                    message.textContent = data.message;
+                    document.body.appendChild(message);
+                    
+                    setTimeout(() => {
+                        message.remove();
+                    }, 3000);
+                } else {
+                    // Revert the toggle if the request failed
+                    this.checked = !enabled;
+                    alert('Failed to update setting. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Revert the toggle if the request failed
+                this.checked = !enabled;
+                alert('Failed to update setting. Please try again.');
+            });
         });
     </script>
 </body>

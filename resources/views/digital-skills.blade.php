@@ -105,6 +105,18 @@
             border-color: #3B4167;
         }
 
+        .btn-warning {
+            background-color: #f59e0b;
+            border-color: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+            border-color: #d97706;
+            color: white;
+        }
+
         .cta-section {
             background: linear-gradient(135deg, #4C808A 0%, #3B4167 100%);
             color: white;
@@ -216,11 +228,18 @@
                 @endforeach
             </div>
             <div class="text-center mt-5">
-                <a href="#" class="btn btn-primary btn-lg rounded-pill px-5"
-                    style="background-color:#4C808A; border-color:#4C808A; " data-bs-toggle="modal"
-                    data-bs-target="#applyModal">
-                    Apply Now
-                </a>
+                @if($applicationsEnabled)
+                    <a href="#" class="btn btn-primary btn-lg rounded-pill px-5"
+                        style="background-color:#4C808A; border-color:#4C808A; " data-bs-toggle="modal"
+                        data-bs-target="#applyModal">
+                        Apply Now
+                    </a>
+                @else
+                    <a href="#" class="btn btn-warning btn-lg rounded-pill px-5" data-bs-toggle="modal"
+                        data-bs-target="#applyModal">
+                        View Application Status
+                    </a>
+                @endif
             </div>
     </section>
 
@@ -269,8 +288,12 @@
                     <h2 class="mb-4">Ready to Start Your Digital Journey?</h2>
                     <p class="lead mb-5">Join our next cohort and gain the skills you need to succeed in the digital
                         economy.</p>
-                    <a href="#" class="btn btn-apply btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">Apply
-                        Now</a>
+                    @if($applicationsEnabled)
+                        <a href="#" class="btn btn-apply btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">Apply
+                            Now</a>
+                    @else
+                        <a href="#" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">View Application Status</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -290,7 +313,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
+                    @if($applicationsEnabled)
+                        <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
+                    @else
+                        <button type="button" class="btn btn-warning" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">View Application Status</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -305,6 +332,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    @if(!$applicationsEnabled)
+                        <div class="text-center py-4">
+                            <div class="mb-3">
+                                <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                            </div>
+                            <h4 class="mb-3">Applications Currently Closed</h4>
+                            <p class="text-muted">We are not receiving applications now. Please check again in the coming days.</p>
+                        </div>
+                    @else
                     <form id="trainingApplicationForm">
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
@@ -335,6 +371,7 @@
                             <button type="submit" class="btn btn-primary">Submit Application</button>
                         </div>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>

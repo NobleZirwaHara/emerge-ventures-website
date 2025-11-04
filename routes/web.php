@@ -50,6 +50,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Services Management
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class);
     
+    // Settings Management
+    Route::post('settings/toggle-digital-skills-applications', [App\Http\Controllers\Admin\SettingsController::class, 'toggleDigitalSkillsApplications'])->name('settings.toggle-digital-skills-applications');
+    
     // // Team Management
     // Route::resource('team-members', App\Http\Controllers\Admin\TeamMemberController::class);
     
