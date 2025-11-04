@@ -86,7 +86,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item {{ Route::is('digital-skills.*') ? 'active' : '' }}" href="{{ route('digital-skills.index') }}">Digital Skills</a></li>
-              <li><a class="dropdown-item {{ request()->is('entrepreneur-application') ? 'active' : '' }}" href="{{ url('/entrepreneur-application') }}">Entrepreneur Application Form</a></li>
+              <li><a class="dropdown-item {{ request()->is('entrepreneur-application') ? 'active' : '' }}" href="{{ url('/entrepreneur-application') }}">Giftshop Application Form</a></li>
               <li><a class="dropdown-item {{ request()->is('co-workspace') ? 'active' : '' }}" href="{{ url('/co-workspace') }}">Creative Co-Workspace</a></li>
             </ul>
           </li>
