@@ -7,6 +7,7 @@ use App\Models\Entrepreneur;
 use App\Models\DigitalSkill;
 use App\Models\Service;
 use App\Models\TeamMember;
+use App\Models\Setting;
 // WorkspaceBooking model is optional
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +51,9 @@ class DashboardController extends Controller
         $userGrowthChart = $this->getUserGrowthData();
         $entrepreneurGrowthChart = $this->getEntrepreneurGrowthData();
         
+        // Settings
+        $digitalSkillsApplicationsEnabled = Setting::get('digital_skills_applications_enabled', true);
+        
         return view('admin.dashboard', compact(
             // User Analytics
             'totalUsers',
@@ -81,7 +85,10 @@ class DashboardController extends Controller
             
             // Charts Data
             'userGrowthChart',
-            'entrepreneurGrowthChart'
+            'entrepreneurGrowthChart',
+            
+            // Settings
+            'digitalSkillsApplicationsEnabled'
         ));
     }
     

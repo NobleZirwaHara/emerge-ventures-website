@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\DigitalSkillApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,12 +14,14 @@ class DigitalSkillApplicationReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $application;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(DigitalSkillApplication $application)
     {
-        //
+        $this->application = $application;
     }
 
     /**
@@ -27,7 +30,7 @@ class DigitalSkillApplicationReceived extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Digital Skill Application Received',
+            subject: 'New Digital Skills Training Application',
         );
     }
 
@@ -37,7 +40,7 @@ class DigitalSkillApplicationReceived extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.digital-skill-application-received',
         );
     }
 

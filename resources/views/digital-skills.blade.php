@@ -105,6 +105,18 @@
             border-color: #3B4167;
         }
 
+        .btn-warning {
+            background-color: #f59e0b;
+            border-color: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+            border-color: #d97706;
+            color: white;
+        }
+
         .cta-section {
             background: linear-gradient(135deg, #4C808A 0%, #3B4167 100%);
             color: white;
@@ -216,11 +228,18 @@
                 @endforeach
             </div>
             <div class="text-center mt-5">
-                <a href="#" class="btn btn-primary btn-lg rounded-pill px-5"
-                    style="background-color:#4C808A; border-color:#4C808A; " data-bs-toggle="modal"
-                    data-bs-target="#applyModal">
-                    Apply Now
-                </a>
+                @if($applicationsEnabled)
+                    <a href="#" class="btn btn-primary btn-lg rounded-pill px-5"
+                        style="background-color:#4C808A; border-color:#4C808A; " data-bs-toggle="modal"
+                        data-bs-target="#applyModal">
+                        Apply Now
+                    </a>
+                @else
+                    <a href="#" class="btn btn-warning btn-lg rounded-pill px-5" data-bs-toggle="modal"
+                        data-bs-target="#applyModal">
+                        View Application Status
+                    </a>
+                @endif
             </div>
     </section>
 
@@ -269,8 +288,12 @@
                     <h2 class="mb-4">Ready to Start Your Digital Journey?</h2>
                     <p class="lead mb-5">Join our next cohort and gain the skills you need to succeed in the digital
                         economy.</p>
-                    <a href="#" class="btn btn-apply btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">Apply
-                        Now</a>
+                    @if($applicationsEnabled)
+                        <a href="#" class="btn btn-apply btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">Apply
+                            Now</a>
+                    @else
+                        <a href="#" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#applyModal">View Application Status</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -290,7 +313,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
+                    @if($applicationsEnabled)
+                        <button type="button" class="btn btn-primary" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">Apply Now</button>
+                    @else
+                        <button type="button" class="btn btn-warning" data-bs-target="#applyModal" data-bs-toggle="modal" data-bs-dismiss="modal">View Application Status</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -305,7 +332,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    @if(!$applicationsEnabled)
+                        <div class="text-center py-4">
+                            <div class="mb-3">
+                                <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                            </div>
+                            <h4 class="mb-3">Applications Currently Closed</h4>
+                            <p class="text-muted">We are not receiving applications now. Please check again in the coming days.</p>
+                        </div>
+                    @else
                     <form id="trainingApplicationForm">
+                        @csrf
+                        <div id="applicationAlert" class="alert d-none" role="alert"></div>
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
                             <input type="text" class="form-control" id="fullName" name="fullName" required>
@@ -332,9 +370,13 @@
                             <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Submit Application</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <span class="btn-text">Submit Application</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -342,7 +384,8 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+// Wait for programs.js to load first, then override its behavior
+window.addEventListener('load', function () {
     var programDetailsModal = document.getElementById('programDetailsModal');
     programDetailsModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
@@ -397,6 +440,91 @@ document.addEventListener('DOMContentLoaded', function () {
                 modalBody.innerHTML = '<p>Could not load program details. Please try again later.</p>';
             });
     });
+
+    // Handle application form submission
+    const applicationForm = document.getElementById('trainingApplicationForm');
+    if (applicationForm) {
+        applicationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.spinner-border');
+            const alertDiv = document.getElementById('applicationAlert');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = 'Submitting...';
+            spinner.classList.remove('d-none');
+            alertDiv.classList.add('d-none');
+            
+            // Get form data
+            const formData = new FormData(applicationForm);
+            
+            // Submit the form
+            fetch('{{ route("digital-skills.apply") }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                // Handle both success and error responses
+                return response.json().then(data => {
+                    return { data, status: response.status, ok: response.ok };
+                });
+            })
+            .then(({ data, status, ok }) => {
+                if (ok && data.success) {
+                    // Show success message
+                    alertDiv.className = 'alert alert-success';
+                    alertDiv.textContent = data.message;
+                    alertDiv.classList.remove('d-none');
+                    
+                    // Reset form
+                    applicationForm.reset();
+                    
+                    // Close modal after 3 seconds
+                    setTimeout(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
+                        modal.hide();
+                    }, 3000);
+                } else {
+                    // Show error message
+                    alertDiv.className = 'alert alert-danger';
+                    
+                    // Handle validation errors (422)
+                    if (status === 422 && data.errors) {
+                        let errorText = data.message + '\n\n';
+                        Object.values(data.errors).forEach(errors => {
+                            errors.forEach(error => {
+                                errorText += '• ' + error + '\n';
+                            });
+                        });
+                        alertDiv.innerHTML = errorText.replace(/\n/g, '<br>');
+                    } else {
+                        alertDiv.textContent = data.message || 'Something went wrong. Please try again.';
+                    }
+                    
+                    alertDiv.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alertDiv.className = 'alert alert-danger';
+                alertDiv.textContent = 'Something went wrong. Please try again later.';
+                alertDiv.classList.remove('d-none');
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.textContent = 'Submit Application';
+                spinner.classList.add('d-none');
+            });
+        });
+    }
 });
 </script>
 @endpush
