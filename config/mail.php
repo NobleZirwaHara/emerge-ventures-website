@@ -97,6 +97,12 @@ return [
             'retry_after' => 60,
         ],
 
+        'plunk' => [
+            'transport' => 'plunk',
+            'api_key' => env('PLUNK_API_KEY'),
+            'api_url' => env('PLUNK_API_URL', 'https://api.useplunk.com'),
+        ],
+
     ],
 
     /*

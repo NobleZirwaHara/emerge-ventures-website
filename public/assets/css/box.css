@@ -1,36 +1,44 @@
 /*
- * Box styles for individual boxes
+ * Modern Box styles for individual boxes
  */
 .box {
   display: flex;
   align-items: center;
-  width: 1000px;
-  /* Increased width for a larger box */
-  height: 550px;
-  padding: 20px;
+  width: 1200px;
+  min-height: 400px;
+  padding: 40px;
   box-sizing: border-box;
-  background-color: #f2f2f2;
-  transition: box-shadow 0.4s ease;
-  border-radius: 10px;
-  margin: 0 auto;
-  /* Center the box */
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  margin: 0 auto 40px auto;
   overflow: visible;
-  /* Ensure content is visible */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
 
-  /* This complex border creates the zigzag pattern on the top/bottom and a solid white border on the sides */
-  border-top: 45px solid transparent;
-  border-bottom: 45px solid transparent;
-  border-left: 45px solid white;
-  border-right: 45px solid white;
-
-  border-image-source: url("../img/bg/63.jpg");
-  border-image-slice: 45;
-  border-image-width: 15px;
-  border-image-repeat: repeat;
+.box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(76, 128, 138, 0.02) 0%, rgba(76, 128, 138, 0.05) 100%);
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .box:hover {
-  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.box:hover::before {
+  opacity: 1;
 }
 
 
@@ -38,91 +46,168 @@
 
 .content {
   flex: 1;
-  color: #4C808A;
-  font-size: 1.2rem;
-  padding-right: 20px;
-  color: black;
+  color: #334155;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  padding-right: 40px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
   box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-@font-face {
-  font-family: 'Betenoira';
-  src: url('../fonts/betenoira/BeteNoirNF.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+.content h1 {
+  margin: 0 0 16px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .content h2 {
-  margin: 0 0 10px 0;
-  font-family: 'Verdana';
+  margin: 0 0 20px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #4C808A;
-  font-size: 40px;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  hyphens: auto;
-  line-height: 1.2;
+}
+
+.content h3 {
+  margin: 24px 0 12px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.content p {
+  margin-bottom: 16px;
+  color: #475569;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.content .subtitle {
+  color: #64748b;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 .image-wrapper {
   flex-shrink: 0;
-  width: 250px;
-  /* Slightly reduced to fit in the smaller box */
-  height: 400px;
-  /* Slightly reduced to fit better */
+  width: 300px;
+  height: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .image-wrapper img {
   max-width: 100%;
   max-height: 100%;
-  border-radius: 15px;
+  border-radius: 16px;
   object-fit: cover;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  transition: box-shadow 0.4s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* For the specific mission box only */
-.box.mission-box {
-  justify-content: center;
-  /* Center content horizontally in the flex container */
+.image-wrapper img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Emerge Ventures Overview Box */
+.box.emerge-overview {
+  flex-direction: column;
   text-align: center;
-  /* Center text */
-  overflow: visible;
-  /* Allow content to be visible */
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  border: 1px solid #cbd5e1;
 }
 
-.box.mission-box .content {
-  padding-right: 0;
-  /* Remove right padding since we're centering */
-  padding-left: 20px;
-  /* Add some left padding if needed */
+.box.emerge-overview .content {
+  padding: 0;
   width: 100%;
-  max-width: 100%;
-  overflow: visible;
-  /* Allow text to be visible */
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.box.mission-box .content h2 {
-  margin-top: 0;
-  width: 100%;
-  /* Ensure heading takes full width */
-  max-width: 100%;
-  word-break: break-word;
-  overflow-wrap: break-word;
+.box.emerge-overview .content h1 {
+  color: #1e293b;
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #1e293b 0%, #4C808A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.box.mission-box .content p {
-  width: 100%;
-  max-width: 100%;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  text-align: justify;
-  hyphens: auto;
+.box.emerge-overview .content .subtitle {
+  color: #4C808A;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 32px;
+  font-style: italic;
+}
+
+.box.emerge-overview .content p {
+  text-align: left;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #475569;
+}
+
+/* Vision and Mission sections */
+.vision-mission-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.vision-section, .mission-section {
+  background: rgba(76, 128, 138, 0.05);
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(76, 128, 138, 0.1);
+  transition: all 0.3s ease;
+}
+
+.vision-section:hover, .mission-section:hover {
+  background: rgba(76, 128, 138, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(76, 128, 138, 0.15);
+}
+
+.vision-section h3, .mission-section h3 {
+  color: #4C808A;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.vision-section p, .mission-section p {
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #334155;
 }
 
 
@@ -183,75 +268,112 @@
 /* Enhanced Responsive adjustments */
 @media (max-width: 1400px) {
   .box {
-    width: 900px;
-    height: 500px;
-    padding: 18px;
+    width: 1000px;
+    padding: 32px;
   }
 
   .content {
-    font-size: 1.1rem;
-    padding-right: 18px;
+    font-size: 1rem;
+    padding-right: 32px;
+  }
+
+  .content h1 {
+    font-size: 2.25rem;
   }
 
   .content h2 {
-    font-size: 36px;
+    font-size: 1.75rem;
   }
 
   .image-wrapper {
-    width: 220px;
-    height: 360px;
+    width: 260px;
+    height: 280px;
+  }
+
+  .box.emerge-overview .content h1 {
+    font-size: 2.5rem;
+  }
+
+  .vision-mission-container {
+    gap: 32px;
   }
 }
 
 @media (max-width: 1200px) {
   .box {
-    width: 800px;
-    height: 480px;
-    padding: 16px;
-  }
-
-  .content {
-    font-size: 1.05rem;
-    padding-right: 16px;
-  }
-
-  .content h2 {
-    font-size: 34px;
-  }
-
-  .image-wrapper {
-    width: 200px;
-    height: 340px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .row {
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 0;
-  }
-
-  .box {
-    margin: 12px 0;
-    width: 95%;
-    max-width: 700px;
-    height: 450px;
-    padding: 15px;
+    width: 90%;
+    max-width: 900px;
+    padding: 28px;
   }
 
   .content {
     font-size: 1rem;
-    padding-right: 15px;
+    padding-right: 28px;
+  }
+
+  .content h1 {
+    font-size: 2rem;
   }
 
   .content h2 {
-    font-size: 30px;
+    font-size: 1.5rem;
   }
 
   .image-wrapper {
-    width: 180px;
-    height: 300px;
+    width: 220px;
+    height: 240px;
+  }
+
+  .box.emerge-overview .content h1 {
+    font-size: 2.25rem;
+  }
+
+  .vision-mission-container {
+    gap: 24px;
+  }
+
+  .vision-section, .mission-section {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .box {
+    width: 95%;
+    max-width: 800px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .content {
+    font-size: 0.95rem;
+    padding-right: 24px;
+  }
+
+  .content h1 {
+    font-size: 1.75rem;
+  }
+
+  .content h2 {
+    font-size: 1.375rem;
+  }
+
+  .image-wrapper {
+    width: 200px;
+    height: 220px;
+  }
+
+  .box.emerge-overview {
+    padding: 40px 24px;
+  }
+
+  .box.emerge-overview .content h1 {
+    font-size: 2rem;
+  }
+
+  .vision-mission-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
@@ -294,38 +416,51 @@
 
 @media (max-width: 768px) {
   .box {
-    width: 100%;
-    max-width: 500px;
-    height: 380px;
-    padding: 10px;
-    border-top-width: 25px;
-    border-bottom-width: 25px;
-    border-left-width: 25px;
-    border-right-width: 25px;
-    border-image-slice: 25;
-    border-image-width: 8px;
+    width: 95%;
+    max-width: 600px;
+    padding: 20px;
+    margin-bottom: 24px;
+    border-radius: 16px;
   }
 
   .content {
     font-size: 0.9rem;
-    padding-right: 10px;
-    padding-left: 5px;
+    padding-right: 20px;
+  }
+
+  .content h1 {
+    font-size: 1.5rem;
   }
 
   .content h2 {
-    font-size: 22px;
-    line-height: 1.1;
-    margin-bottom: 6px;
+    font-size: 1.25rem;
+    margin-bottom: 12px;
   }
 
   .content p {
-    font-size: 0.9rem !important;
-    line-height: 1.3;
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
   .image-wrapper {
-    width: 130px;
-    height: 220px;
+    width: 160px;
+    height: 180px;
+  }
+
+  .box.emerge-overview {
+    padding: 32px 20px;
+  }
+
+  .box.emerge-overview .content h1 {
+    font-size: 1.75rem;
+  }
+
+  .box.emerge-overview .content .subtitle {
+    font-size: 1.125rem;
+  }
+
+  .vision-section, .mission-section {
+    padding: 20px;
   }
 }
 

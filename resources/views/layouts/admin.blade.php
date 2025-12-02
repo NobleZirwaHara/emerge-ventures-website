@@ -20,6 +20,7 @@
                 <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.dashboard')) bg-gray-700 @endif">Dashboard</a>
                 <a href="{{ route('admin.entrepreneurs.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.entrepreneurs.*')) bg-gray-700 @endif">Entrepreneurs</a>
                 <a href="{{ route('admin.digital-skills.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.digital-skills.*')) bg-gray-700 @endif">Digital Skills</a>
+                <a href="{{ route('admin.digital-skill-applications.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Applications</a>
                 <a href="{{ route('admin.services.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.services.*')) bg-gray-700 @endif">Services</a>
                 <a href="{{ route('admin.users.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700 @if(request()->routeIs('admin.users.*')) bg-gray-700 @endif">Users</a>
                 <form method="POST" action="{{ route('logout') }}" class="w-full">
