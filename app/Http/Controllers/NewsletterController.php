@@ -116,7 +116,7 @@ class NewsletterController extends Controller
                 <p style='margin: 0;'>
                     Emerge Hub - Mzuzu | Kwawala House, First Floor<br>
                     P.O. Box 20094, Mzuzu, Malawi<br>
-                    <a href='mailto:hello@emergeventures.com' style='color: #007bff;'>hello@emergeventures.com</a>
+                    <a href='mailto:hello@emerge-ventures.org' style='color: #007bff;'>hello@emerge-ventures.org</a>
                 </p>
                 <p style='margin: 10px 0 0 0;'>
                     <a href='#' style='color: #6c757d; font-size: 11px;'>Unsubscribe</a>
