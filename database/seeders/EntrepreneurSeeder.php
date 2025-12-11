@@ -192,7 +192,7 @@ class EntrepreneurSeeder extends Seeder
 
             // Pretak Investments
             [
-                'name' => 'Innocent',
+                'name' => 'Leonia Manda',
                 'email' => 'pretakinvestments@gmail.com',
                 'phone' => '+265 991 807 387',
                 'business_name' => 'Pretak Investments',
@@ -208,8 +208,8 @@ class EntrepreneurSeeder extends Seeder
                 'social_media' => [
                     'facebook' => 'PretakInvestments',
                 ],
-                'profile_image' => 'assets/img/entrepreneurs/solid-color-image.jpeg',
-                'business_logo' => 'assets/icons/beauty.png',
+                'profile_image' => 'assets/img/entrepreneurs/Leonia_Manda.jpeg',
+                'business_logo' => 'assets/img/entrepreneurs/Pretak_Investments.jpeg',
                 'bio' => 'Founder of Pretak Investments, committed to promoting wellness through quality personal care products.',
                 'overview' => 'Pretak Investments is dedicated to creating high-quality, affordable personal care and household products that meet the everyday needs of Malawian families. The company focuses on natural-inspired formulas that are gentle, effective, and safe for the whole family, using locally sourced ingredients where possible. Pretak Investments is committed to quality, consistency, and customer satisfaction in every product.',
                 'role' => 'Founder',

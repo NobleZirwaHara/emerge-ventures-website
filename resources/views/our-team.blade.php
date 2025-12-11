@@ -24,7 +24,7 @@
       <div class="row justify-content-center">
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="team-member">
-            <img data-src="/assets/img/user/profile1.JPG" alt="Daniel Mvalo" class="lazy responsive-img" />
+            <img data-src="/assets/img/user/profile1.jpg" alt="Daniel Mvalo" class="lazy responsive-img" />
             <div class="team-member-content">
               <div class="name">Daniel Mvalo</div>
               <div class="title">CEO</div>
@@ -35,37 +35,37 @@
 
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="team-member">
-            <img data-src="/assets/img/user/profile2.jpg" alt="Happy Chiputu" class="lazy responsive-img" />
-            <div class="team-member-content">
-              <div class="name">Happy Chiputu</div>
-              <div class="title">Administration and Operations Officer</div>
-            </div>
-            <div class="popup">Happy oversees daily operations and ensures smooth administration across the
-              organization.</div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="team-member">
             <img data-src="/assets/img/user/profile4.jpg" alt="Shadreck Mawindo" class="lazy responsive-img" />
             <div class="team-member-content">
               <div class="name">Shadreck Mawindo</div>
-              <div class="title">Digital Skills Trainer</div>
+              <div class="title">Administration and Operations Officer</div>
             </div>
-            <div class="popup">Shadreck empowers individuals with essential digital skills for work and innovation.
+            <div class="popup">Shadreck oversees daily operations and ensures smooth administration across the
+              organization.
             </div>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="team-member">
-            <img data-src="/assets/img/user/profile3.jpg" alt="Hellen Tembo" class="lazy responsive-img" />
+            <img data-src="/assets/img/user/Emmanuel.jpg" alt="Hellen Tembo" class="lazy responsive-img" />
             <div class="team-member-content">
-              <div class="name">Hellen Tembo</div>
-              <div class="title">Client Relations Officer</div>
+              <div class="name">Emmanuel Phiri</div>
+              <div class="title">Software Developer</div>
             </div>
-            <div class="popup">Hellen builds strong client relationships and ensures satisfaction with our services.
+            <div class="popup">...
             </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="team-member">
+            <img data-src="/assets/img/user/Fiskani.jpg" alt="Happy Chiputu" class="lazy responsive-img" />
+            <div class="team-member-content">
+              <div class="name">Fiskani Chunda</div>
+              <div class="title">Team Support Officer</div>
+            </div>
+            <div class="popup">...</div>
           </div>
         </div>
       </div>

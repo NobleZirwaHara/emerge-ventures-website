@@ -143,7 +143,7 @@ class ContactController extends Controller
                     <p style='margin: 0; color: #555;'>
                         <strong>Need immediate assistance?</strong><br>
                         Call us at <a href='tel:+265881404393' style='color: #007bff;'>+265 881 404 393</a> 
-                        or email <a href='mailto:hello@emergeventures.com' style='color: #007bff;'>hello@emergeventures.com</a>
+                        or email <a href='mailto:hello@emerge-ventures.org' style='color: #007bff;'>hello@emerge-ventures.org</a>
                     </p>
                 </div>
                 
