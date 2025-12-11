@@ -153,7 +153,7 @@
                       </div>
                       <div class="method-content">
                         <h6>Email Us</h6>
-                        <p><a href="mailto:hello@emergeventures.com">hello@emergeventures.com</a></p>
+                        <p><a href="mailto:hello@emerge-ventures.org">hello@emerge-ventures.org</a></p>
                       </div>
                     </div>
                   </div>

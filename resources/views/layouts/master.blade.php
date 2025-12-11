@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="keywords"
     content="Emerge Ventures, services, digital skills, entrepreneurship, co-working space, business development, Malawi">
   <meta name="description"
@@ -12,7 +13,10 @@
   <meta name="author" content="Emerge Ventures">
 
   <!-- site Favicon -->
-  <link rel="icon" href="{{ asset('assets/img/favicon/favicon.png') }}" sizes="32x32">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 
   <!-- css Icon Font -->
   <link rel="stylesheet" href="{{ asset('assets/css/vendor/msicons.min.css') }}">
@@ -86,12 +90,12 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item {{ Route::is('digital-skills.*') ? 'active' : '' }}" href="{{ route('digital-skills.index') }}">Digital Skills</a></li>
-              <li><a class="dropdown-item {{ request()->is('entrepreneur-application') ? 'active' : '' }}" href="{{ url('/entrepreneur-application') }}">Entrepreneur Application Form</a></li>
+              <li><a class="dropdown-item {{ request()->is('entrepreneur-application') ? 'active' : '' }}" href="{{ url('/entrepreneur-application') }}">Giftshop Application Form</a></li>
               <li><a class="dropdown-item {{ request()->is('co-workspace') ? 'active' : '' }}" href="{{ url('/co-workspace') }}">Creative Co-Workspace</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ request()->is('shop') ? 'active' : '' }}" href="{{ url('/shop') }}">Shop</a>
+            <a class="nav-link {{ request()->is('shop') ? 'active' : '' }}" href="{{ url('https://emergegiftshop.com') }}">Shop</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ Route::is('entrepreneurs.*') || Route::is('full-profile') ? 'active' : '' }}" href="{{ route('entrepreneurs.index') }}">Discover Our Entrepreneurs</a>
@@ -138,7 +142,7 @@
                       </li>
                       <li class="ms-footer-link ms-foo-mail"><span><img src="{{ asset('assets/img/icons/foo-mail.svg') }}"
                             class="svg_img foo_svg" alt=""></span><a
-                          href="mailto:hello@emergeventures.com">hello@emergeventures.com</a>
+                          href="mailto:hello@emerge-ventures.org">hello@emerge-ventures.org</a>
                       </li>
                     </ul>
                   </div>
@@ -148,11 +152,11 @@
                 <div class="ms-footer-widget">
                   <div class="ms-footer-links ms-footer-dropdown">
                     <ul class="align-items-center">
-                      <li class="ms-footer-link"><a href="#"><i class="msicon msi-instagram" aria-hidden="true"></i></a>
+                      <li class="ms-footer-link"><a href="https://www.instagram.com/emerge_ventures?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="msicon msi-instagram" aria-hidden="true"></i></a>
                       </li>
                       <li class="ms-footer-link"><a href="#"><i class="msicon msi-twitter-square"
                             aria-hidden="true"></i></a></li>
-                      <li class="ms-footer-link"><a href="#"><i class="msicon msi-facebook-square"
+                      <li class="ms-footer-link"><a href="https://www.facebook.com/profile.php?id=61575011024664"><i class="msicon msi-facebook-square"
                             aria-hidden="true"></i></a></li>
                       <li class="ms-footer-link"><a href="#"><i class="msicon msi-linkedin-square"
                             aria-hidden="true"></i></a></li>
@@ -184,7 +188,7 @@
                     <li class="ms-footer-link"><a href="#">About us</a></li>
                     <li class="ms-footer-link"><a href="#">Delivery</a></li>
                     <li class="ms-footer-link"><a href="#">Secure payment</a></li>
-                    <li class="ms-footer-link"><a href="#">Contact us</a></li>
+                    <li class="ms-footer-link"><a href="{{ url('/contact') }}">Contact us</a></li>
                   </ul>
                 </div>
               </div>
@@ -196,7 +200,7 @@
                   <ul class="align-items-center">
                     <li class="ms-footer-link"><a href="#">Sign In</a></li>
                     <li class="ms-footer-link"><a href="#">View Cart</a></li>
-                    <li class="ms-footer-link"><a href="#">Become Entrepreneur</a></li>
+                    <li class="ms-footer-link"><a href="{{ url('/entrepreneur-application') }}"">Become Entrepreneur</a></li>
                     <li class="ms-footer-link"><a href="#">Co-Workspaces</a></li>
                     <li class="ms-footer-link"><a href="#">Payments</a></li>
                   </ul>

@@ -269,7 +269,7 @@
                       </li>
                       <li class="ms-footer-link ms-foo-mail"><span><img src="assets/img/icons/foo-mail.svg"
                             class="svg_img foo_svg" alt=""></span><a
-                          href="mailto:hello@emergeventures.com">hello@emergeventures.com</a>
+                          href="mailto:hello@emerge-ventures.org">hello@emerge-ventures.org</a>
                       </li>
                     </ul>
                   </div>

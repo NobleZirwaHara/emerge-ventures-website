@@ -32,19 +32,18 @@
     }
 
     .entrepreneurs-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
         margin: 0 auto 40px;
         max-width: 1400px;
-        padding: 0 15px;
+        padding: 0 10px;
     }
 
     .entrepreneur-card {
         position: relative;
         background: #fff;
-        width: 300px;
+        width: 100%;
         margin: 0 auto;
         text-align: center;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -357,6 +356,18 @@
         transform: translateX(-2px);
     } */
 
+    @media (max-width: 1400px) {
+        .entrepreneurs-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .entrepreneurs-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
     @media (max-width: 768px) {
         .entrepreneurs-hero h1 {
             font-size: 2.5rem;
@@ -366,6 +377,7 @@
             grid-template-columns: 1fr;
             gap: 20px;
         }
+    }
 
         /* .profile-header {
             flex-direction: column;

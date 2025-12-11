@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard - Analytics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,6 +21,7 @@
                 <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded bg-gray-700">Dashboard</a>
                 <a href="{{ route('admin.entrepreneurs.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Entrepreneurs</a>
                 <a href="{{ route('admin.digital-skills.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Digital Skills</a>
+                <a href="{{ route('admin.digital-skill-applications.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Applications</a>
                 <a href="{{ route('admin.services.index') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Services</a>
                 <!-- Team and Workspace links are commented out as their routes don't exist yet -->
                 <!-- <a href="{{-- route('admin.team-members.index') --}}" class="block py-2 px-4 rounded hover:bg-gray-700">Team</a> -->
@@ -134,6 +136,27 @@
                 </div>
             </div>
 
+            <!-- Digital Skills Settings -->
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <h3 class="text-lg font-semibold mb-4">Digital Skills Settings</h3>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-gray-900">Applications Status</p>
+                        <p class="text-sm text-gray-600">Control whether users can apply for digital skills training</p>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="applicationsToggle" class="sr-only peer" 
+                                   {{ $digitalSkillsApplicationsEnabled ? 'checked' : '' }}>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                        <span class="ml-3 text-sm font-medium text-gray-900" id="toggleStatus">
+                            {{ $digitalSkillsApplicationsEnabled ? 'Enabled' : 'Disabled' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Recent Activities -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Recent Entrepreneurs -->
@@ -163,34 +186,6 @@
                         </div>
                         @empty
                         <p class="text-gray-500 text-center py-4">No recent entrepreneurs found</p>
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Upcoming Workspace Bookings -->
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Upcoming Workspace Bookings</h3>
-                        <a href="{{ route('admin.workspace-bookings.index') }}" class="text-sm text-blue-600 hover:underline">View All</a>
-                    </div>
-                    <div class="space-y-3">
-                        @forelse($upcomingBookings as $booking)
-                        <div class="flex justify-between items-center py-2 border-b">
-                            <div>
-                                <p class="font-medium text-gray-900">{{ $booking->user->name ?? 'Guest' }}</p>
-                                <p class="text-sm text-gray-600">
-                                    {{ \Carbon\Carbon::parse($booking->start_date)->format('M d, Y') }}
-                                    @if($booking->end_date)
-                                        - {{ \Carbon\Carbon::parse($booking->end_date)->format('M d, Y') }}
-                                    @endif
-                                </p>
-                            </div>
-                            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                                {{ $booking->status }}
-                            </span>
-                        </div>
-                        @empty
-                        <p class="text-gray-500 text-center py-4">No upcoming bookings</p>
                         @endforelse
                     </div>
                 </div>
@@ -264,6 +259,49 @@
                     }
                 }
             }
+        });
+
+        // Digital Skills Applications Toggle
+        document.getElementById('applicationsToggle').addEventListener('change', function() {
+            const enabled = this.checked;
+            const statusText = document.getElementById('toggleStatus');
+            
+            fetch('{{ route("admin.settings.toggle-digital-skills-applications") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    enabled: enabled
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusText.textContent = enabled ? 'Enabled' : 'Disabled';
+                    
+                    // Show a temporary success message
+                    const message = document.createElement('div');
+                    message.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50';
+                    message.textContent = data.message;
+                    document.body.appendChild(message);
+                    
+                    setTimeout(() => {
+                        message.remove();
+                    }, 3000);
+                } else {
+                    // Revert the toggle if the request failed
+                    this.checked = !enabled;
+                    alert('Failed to update setting. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Revert the toggle if the request failed
+                this.checked = !enabled;
+                alert('Failed to update setting. Please try again.');
+            });
         });
     </script>
 </body>
